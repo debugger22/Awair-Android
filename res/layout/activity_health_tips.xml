@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container_health_tips"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true"
+    android:scrollbars="none"
+    android:soundEffectsEnabled="true"
+    android:layout_alignParentTop="true"
+    android:fillViewport="true" >
+
+    
+	    <RelativeLayout
+	        android:id="@+id/layout_health_tips"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:alpha="1"
+	        android:orientation="vertical"
+	        android:background="@color/greensea"
+	        android:padding="20dp" >
+
+	        <TextView
+	            android:id="@+id/lblTitle"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_alignParentTop="true"
+	            android:text="Title"
+	            android:textColor="@color/white"
+	            android:textSize="@dimen/normalText" />
+
+	        <LinearLayout
+	            android:id="@+id/linearLayout1"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_alignLeft="@+id/lblTitle"
+	            android:layout_below="@+id/lblTitle"
+	            android:layout_marginTop="24dp"
+	            android:orientation="vertical" >
+
+	            <TextView
+	                android:id="@+id/lblMessage"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text=""
+	                android:textColor="@color/white"
+	                android:textSize="@dimen/okText" />
+
+	            <TextView
+	                android:id="@+id/lblRecommendation"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="30dp"
+	                android:text=""
+	                android:textColor="@color/white"
+	                android:textSize="@dimen/okText" />
+	        </LinearLayout>
+
+	        <Button
+	            android:id="@+id/cmdView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignLeft="@+id/cmdUpdate"
+	            android:layout_centerVertical="true"
+	            android:padding="5dp"
+	            android:text="View now"
+	            android:textColor="@color/black"
+	            android:textColorHint="@color/white"
+	            android:visibility="invisible"
+	            android:width="120dp"
+	            android:background="@color/white" />
+
+	        <Button
+	            android:id="@+id/cmdUpdate"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/cmdView"
+	            android:layout_centerHorizontal="true"
+	            android:layout_marginTop="33dp"
+	            android:text="Update now"
+	            android:textColor="@color/black"
+	            android:textColorHint="@color/white"
+	            android:visibility="invisible"
+	            android:width="120dp"
+	            android:background="@color/white" />
+
+	    </RelativeLayout>
+
+</ScrollView>

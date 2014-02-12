@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/container_gas_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/txtGasName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gas Name"
+                android:textSize="@dimen/normalText"
+                android:textColor="@color/metal" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:id="@+id/txtGasIntro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gas Intro"
+                android:textSize="@dimen/smallText"
+                android:textColor="@color/gray" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Health Effects:"
+                android:textSize="@dimen/smallText"
+                android:textStyle="bold" />
+            
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:id="@+id/txtGasEffects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gas Effects"
+                android:textSize="@dimen/smallText"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

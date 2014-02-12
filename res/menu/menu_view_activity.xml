@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/mnuShowCity" android:enabled="false" android:showAsAction="always|withText" android:visible="true"></item>
+    <!-- <item android:id="@+id/mnuGetDetails" android:enabled="true" android:showAsAction="always|withText" android:title="Details" android:visible="true"></item>-->
+    <item android:id="@+id/mnuKnowMore" android:title="Know More" android:enabled="true" android:showAsAction="ifRoom" android:icon="@drawable/detail" android:visible="true"></item>
+	<item android:id="@+id/mnuRecommend" android:title="Recommend" android:icon="@drawable/ic_action_social_share" android:enabled="true" android:showAsAction="ifRoom" android:visible="true"></item>
+</menu>
