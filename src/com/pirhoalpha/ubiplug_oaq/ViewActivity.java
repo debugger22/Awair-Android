@@ -155,20 +155,22 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
     Context context;
     GoogleCloudMessaging gcm;
     String regid;
+    private String chemicalValue;
+    
     
 	//Data variables
 	public String date;
 	public String city_name;
-	public int minpm25=0, pm25=0, maxpm25=0;
-	public int mino3=0, o3=0, maxo3=0;
-	public int minno2=0, no2=0, maxno2=0;
-	public int minso2=0, so2=0, maxso2=0;
-	public int minco=0, co=0, maxco=0;
-	public int mindew=0, dew=0, maxdew=0;
-	public int minwind=0, wind=0, maxwind=0;
-	public int mintemperature=0, temperature=0, maxtemperature=0;
-	public int minpressure=0, pressure=0, maxpressure=0;
-	public int minhumidity=0, humidity=0, maxhumidity=0;
+	public int  pm25=0;
+	public int o3=0;
+	public int no2=0;
+	public int so2=0;
+	public int co=0;
+	public int dew=0;
+	public int wind=0;
+	public int temperature=0;
+	public int pressure=0;
+	public int humidity=0;
 	
 	//View variables
 	private TextView lblAirQuality;
@@ -246,41 +248,40 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_PM25).split(" ");
 			pm25 = Integer.parseInt(temp[0]);
-			minpm25 = Integer.parseInt(temp[2]);
-			maxpm25 = Integer.parseInt(temp[1]);
-			if(minpm25>pm25)minpm25 = pm25-pm25/2;
+			//minpm25 = Integer.parseInt(temp[2]);
+			//maxpm25 = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_O3).split(" ");
 			o3 = Integer.parseInt(temp[0]);
-			mino3 = Integer.parseInt(temp[2]);
-			maxo3 = Integer.parseInt(temp[1]);
+			//mino3 = Integer.parseInt(temp[2]);
+			//maxo3 = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_NO2).split(" ");
 			no2 = Integer.parseInt(temp[0]);
-			minno2 = Integer.parseInt(temp[2]);
-			maxno2 = Integer.parseInt(temp[1]);
+			//minno2 = Integer.parseInt(temp[2]);
+			//maxno2 = Integer.parseInt(temp[1]);
 			
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_SO2).split(" ");
 			so2 = Integer.parseInt(temp[0]);
-			minso2 = Integer.parseInt(temp[2]);
-			maxso2 = Integer.parseInt(temp[1]);
+			//minso2 = Integer.parseInt(temp[2]);
+			//maxso2 = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_CO).split(" ");
 			co = Integer.parseInt(temp[0]);
-			minco = Integer.parseInt(temp[2]);
-			maxco = Integer.parseInt(temp[1]);
+			//minco = Integer.parseInt(temp[2]);
+			//maxco = Integer.parseInt(temp[1]);
 				
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
@@ -288,40 +289,40 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_DEW).split(" ");
 			dew = Integer.parseInt(temp[0]);
-			mindew = Integer.parseInt(temp[2]);
-			maxdew = Integer.parseInt(temp[1]);
+			//mindew = Integer.parseInt(temp[2]);
+			//maxdew = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_WIND).split(" ");
 			wind = Integer.parseInt(temp[0]);
-			minwind = Integer.parseInt(temp[2]);
-			maxwind = Integer.parseInt(temp[1]);
+			//minwind = Integer.parseInt(temp[2]);
+			//maxwind = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_TEMPERATURE).split(" ");
 			temperature = Integer.parseInt(temp[0]);
-			mintemperature = Integer.parseInt(temp[2]);
-			maxtemperature = Integer.parseInt(temp[1]);
+			//mintemperature = Integer.parseInt(temp[2]);
+			//maxtemperature = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_PRESSURE).split(" ");
 			pressure = Integer.parseInt(temp[0]);
-			minpressure = Integer.parseInt(temp[2]);
-			maxpressure = Integer.parseInt(temp[1]);
+			//minpressure = Integer.parseInt(temp[2]);
+			//maxpressure = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_HUMIDITY).split(" ");
 			humidity = Integer.parseInt(temp[0]);
-			minhumidity = Integer.parseInt(temp[2]);
-			maxhumidity = Integer.parseInt(temp[1]);
+			//minhumidity = Integer.parseInt(temp[2]);
+			//maxhumidity = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
@@ -363,15 +364,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	    adLayout.addView(adView);
 	    final TelephonyManager tm = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
 	    deviceId = Secure.getString(getApplicationContext().getContentResolver(),Secure.ANDROID_ID);
-	    //Log.v("DEVICEID", deviceId);
-	    /*
-	    AdRequest adRequest = new AdRequest.Builder()
-	    	.addTestDevice(deviceId)
-	    	.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-	    	.build();
-	    // Load the adView with the ad request.
-	    adView.loadAd(adRequest);
-	   	*/
 	    
 		//Styling
 		lblParticlePollutantsHeading.setTypeface(tf);
@@ -442,6 +434,8 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	        	break;
 	        case R.id.mnuKnowMore:
 	        	Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
+	        	i1.putExtra("pollutants_data", new String[]{String.valueOf(pm25),
+	        			chemicalValue,String.valueOf(o3)});
 	        	startActivity(i1);
 	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 	    		break;
@@ -561,6 +555,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
         	}else{
         		chemicalImage.setImageDrawable(getResources().getDrawable(R.drawable.caution_red));
         	}
+        	chemicalValue = String.valueOf(total);
         }else{
         	chemicalText.setText("NA");
         }
@@ -842,7 +837,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 											    		
 											    	}catch(Exception pe){
 											    		Log.v("PARSE_ERROR",pe.toString());
-											    		reportError(pe.toString());
+											    		reportError(pe.toString()+response);
 											    		//getActionBar().setSubtitle("");
 											    	}
 						        	    	
@@ -851,7 +846,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 						    	    	@Override
 						        	    public void onFailure(Throwable error, String response){
 						        	    	Log.v("INTERNET_ERROR1", "Could not connect to internet "+response);
-						        	    	reportError(error.toString());
+						        	    	reportError(error.toString()+response);
 						        	    	//getActionBar().setSubtitle("");
 						        	    	
 						        	    }

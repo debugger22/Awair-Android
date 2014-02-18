@@ -1,5 +1,7 @@
 package com.pirhoalpha.ubiplug_oaq;
 
+import java.util.ArrayList;
+
 import com.google.analytics.tracking.android.EasyTracker;
 
 import android.annotation.SuppressLint;
@@ -7,11 +9,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +29,27 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class KnowMore extends Activity{
+public class KnowMore extends Activity {
 	
-	private ListView lstComponents;
+		private DrawerLayout mDrawerLayout;
+	    private ListView mDrawerList;
+	    private ActionBarDrawerToggle mDrawerToggle;
+	 
+	    // nav drawer title
+	    private CharSequence mDrawerTitle;
+	 
+	    // used to store app title
+	    private CharSequence mTitle;
+	 
+	    // slide menu items
+	    private String[] navMenuTitles;
+	    private TypedArray navMenuIcons;
+	 
+	    private ArrayList<NavDrawerItem> navDrawerItems;
+	    private NavDrawerListAdapter adapter;
 	
 	
 
-	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,37 +57,62 @@ public class KnowMore extends Activity{
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if(android.os.Build.VERSION.SDK_INT>=15)getActionBar().setDisplayHomeAsUpEnabled(true);
-	    if(android.os.Build.VERSION.SDK_INT>=15)getActionBar().setHomeButtonEnabled(true);
-	    if(android.os.Build.VERSION.SDK_INT>=15)getActionBar().setIcon(getResources().getDrawable(R.drawable.hand));
-		lstComponents = (ListView)findViewById(R.id.lstAirComponents);
-		String [] data = new String[]{"Ozone (O3)", "Carbon Monoxide (CO)","Nitrogen Dioxide (NO2)"};
-		CustomArrayAdapterKnowMore<String> adapter = new CustomArrayAdapterKnowMore<String>(this, R.layout.custom_text_view, data);
-		lstComponents.setAdapter(adapter);
-		lstComponents.setOnItemClickListener(new OnItemClickListener(){
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-				if(position==0){
-					Intent i = new Intent(KnowMore.this, GasDetail.class);
-					i.putExtra("data", new String[]{(java.lang.String) ((TextView)view).getText(), getResources().getString(R.string.ozone_intro),getResources().getString(R.string.ozone_effects)});
-					startActivity(i);
-					overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-				}
-				if(position==1){
-					Intent i = new Intent(KnowMore.this, GasDetail.class);
-					i.putExtra("data", new String[]{(java.lang.String) ((TextView)view).getText(), getResources().getString(R.string.co_intro),getResources().getString(R.string.co_effects)});
-					startActivity(i);
-					overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-				}
-				if(position==2){
-					Intent i = new Intent(KnowMore.this, GasDetail.class);
-					i.putExtra("data", new String[]{(java.lang.String) ((TextView)view).getText(), getResources().getString(R.string.no2_intro),getResources().getString(R.string.no2_effects)});
-					startActivity(i);
-					overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-				}
-			}
-		});
+        
+        mTitle = mDrawerTitle = getTitle();
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+        navMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_icons);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+        navDrawerItems = new ArrayList<NavDrawerItem>();
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1),true,
+        		((String[])getIntent().getSerializableExtra("pollutants_data"))[0]));
+        // Find People
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1),true,
+        		((String[])getIntent().getSerializableExtra("pollutants_data"))[1]));
+        // Photos
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1),true,
+        		((String[])getIntent().getSerializableExtra("pollutants_data"))[2]));
+        // Communities, Will add a counter here
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
+        // Pages
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
+        // What's hot, We  will add a counter here
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
+        
+        navMenuIcons.recycle();
+        
+        adapter = new NavDrawerListAdapter(getApplicationContext(),
+                navDrawerItems);
+        mDrawerList.setAdapter(adapter);
+ 
+        // enabling action bar app icon and behaving it as toggle button
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+ 
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.drawable.ic_drawer, //nav menu toggle icon
+                R.string.app_name, // nav drawer open - description for accessibility
+                R.string.app_name // nav drawer close - description for accessibility
+        		){
+		            public void onDrawerClosed(View view) {
+		                getActionBar().setTitle(mTitle);
+		                // calling onPrepareOptionsMenu() to show action bar icons
+		                invalidateOptionsMenu();
+		            }
+ 
+		            public void onDrawerOpened(View drawerView) {
+		                getActionBar().setTitle(mDrawerTitle);
+		                // calling onPrepareOptionsMenu() to hide action bar icons
+		                invalidateOptionsMenu();
+		            }
+		        };
+		        mDrawerLayout.setDrawerListener(mDrawerToggle);
+		 
+		        if (savedInstanceState == null) {
+		            // on first time display view for first nav item
+		            //displayView(0);
+		        }
 	}
 	
 	@Override
@@ -81,59 +127,56 @@ public class KnowMore extends Activity{
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
 	  }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case android.R.id.home:
-	            // This is called when the Home (Up) button is pressed in the action bar.
-	            // Create a simple intent that starts the hierarchical parent activity and
-	            // use NavUtils in the Support Package to ensure proper handling of Up.
-	            finish();
+	 @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+	        // toggle nav drawer on selecting action bar app icon/title
+	        if (mDrawerToggle.onOptionsItemSelected(item)) {
 	            return true;
+	        }
+	        // Handle action bar actions click
+	        switch (item.getItemId()) {
+	        //case R.id.action_settings:
+	        //   return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	        }
+	  	}
+	 
+	 /***
+	     * Called when invalidateOptionsMenu() is triggered
+	     */
+	    @Override
+	    public boolean onPrepareOptionsMenu(Menu menu) {
+	        // if nav drawer is opened, hide the action items
+	        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+	        //menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+	        return super.onPrepareOptionsMenu(menu);
 	    }
-	    return super.onOptionsItemSelected(item);
-	}
+	 
+	    @Override
+	    public void setTitle(CharSequence title) {
+	        mTitle = title;
+	        getActionBar().setTitle(mTitle);
+	    }
+	 
+	    /**
+	     * When using the ActionBarDrawerToggle, you must call it during
+	     * onPostCreate() and onConfigurationChanged()...
+	     */
+	 
+	    @Override
+	    protected void onPostCreate(Bundle savedInstanceState) {
+	        super.onPostCreate(savedInstanceState);
+	        // Sync the toggle state after onRestoreInstanceState has occurred.
+	        mDrawerToggle.syncState();
+	    }
+	 
+	    @Override
+	    public void onConfigurationChanged(Configuration newConfig) {
+	        super.onConfigurationChanged(newConfig);
+	        // Pass any configuration change to the drawer toggls
+	        mDrawerToggle.onConfigurationChanged(newConfig);
+	    }
 	
 	
-}
-
-
-class CustomArrayAdapterKnowMore<String> extends ArrayAdapter {
-
-    private Context mContext;
-    private int id;
-    private String[] items ;
-    private Typeface tf;
-    private Typeface tfbold;
-
-    public CustomArrayAdapterKnowMore(Context context, int textViewResourceId , String[] list ) 
-    {
-        super(context, textViewResourceId, list);           
-        mContext = context;
-        tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/roboto-regular.ttf");
-        id = textViewResourceId;
-        items = list;
-    }
-
-    @Override
-    public View getView(int position, View v, ViewGroup parent)
-    {
-        View mView = v ;
-        if(mView == null){
-            LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            mView = vi.inflate(id, null);
-        }
-
-        TextView text = (TextView) mView.findViewById(R.id.custom_text_view);
-
-        		text.setTextColor(Color.BLACK);
-        		text.setTypeface(tf);
-        		text.setText((CharSequence) items[position]);
-        		text.setHeight(80);
-            
-        
-
-        return mView;
-    }
-
 }

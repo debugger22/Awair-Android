@@ -226,7 +226,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 									    	}catch(ParseException pe){
 									    		Log.v("PARSE_ERROR",pe.toString());
 									    		Log.v("data",response);
-									    		reportError(pe.toString());
+									    		reportError("MainActivity "+pe.toString()+" "+response);
 									    		finish();
 									    	}
 									    }
@@ -234,7 +234,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 									    @Override
 									    public void onFailure(Throwable error, String response){
 									    	Log.v("INTERNET_ERROR", "Could not connect to internet "+response);
-									    	reportError(error.toString());
+									    	reportError("MainActivity "+error.toString()+" "+response);
 									    	dialog.dismiss();
 									    	finish();
 									    	
