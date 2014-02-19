@@ -60,7 +60,7 @@ public class KnowMore extends FragmentActivity {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getActionBar().setIcon(android.R.drawable.ic_menu_help);
+        getActionBar().setIcon(getApplicationContext().getResources().getDrawable(R.drawable.detail));
         
         mTitle = mDrawerTitle = getTitle();
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
@@ -115,7 +115,7 @@ public class KnowMore extends FragmentActivity {
 		 
 		        if (savedInstanceState == null) {
 		            // on first time display view for first nav item
-		            //displayView(0);
+		            displayView(0);
 		        }
 		        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 	}
@@ -201,10 +201,10 @@ public class KnowMore extends FragmentActivity {
 				fragment = new ParticleFragment();
 				break;
 			case 1:
-				//fragment = new FindPeopleFragment();
+				fragment = new ChemicalFragment();
 				break;
 			case 2:
-				//fragment = new PhotosFragment();
+				fragment = new GaseousFragment();
 				break;
 			case 3:
 				//fragment = new CommunityFragment();

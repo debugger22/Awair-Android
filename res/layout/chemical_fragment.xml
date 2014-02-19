@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/fb_light_blue" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/lbl_chemical_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chemicalinfo"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/clouds"
+            android:textSize="@dimen/smallText"
+            android:textColor="@color/darkgray" />
+
+        <TextView
+            android:id="@+id/lblchemicalvg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/smallText"
+            android:padding="5dp"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:background="@color/verygood"
+            android:text="@string/chemicalvg" />
+        
+        <TextView
+            android:id="@+id/lblchemicalg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/smallText"
+            android:padding="5dp"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:background="@color/good"
+            android:text="@string/chemicalg" />
+        <TextView
+            android:id="@+id/lblchemicalm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/smallText"
+            android:padding="5dp"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:background="@color/moderate"
+            android:text="@string/chemicalm" />
+        <TextView
+            android:id="@+id/lblchemicalp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/smallText"
+            android:padding="5dp"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:background="@color/poor"
+            android:text="@string/chemicalp" />
+        <TextView
+            android:id="@+id/lblchemicalb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/smallText"
+            android:padding="5dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@color/bad"
+            android:text="@string/chemicalb" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
+</ScrollView>
