@@ -17,8 +17,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:divider="#fefefe"
+        android:divider="#111111"
         android:dividerHeight="1dp"       
         android:listSelector="@drawable/list_selector"
-        android:background="@color/metal"/>
+        android:background="@color/darkgray"/>
 </android.support.v4.widget.DrawerLayout>

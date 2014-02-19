@@ -991,12 +991,13 @@ Enable automatic exception tracking
         public static final int abs__bright_foreground_disabled_holo_light=0x7f080005;
         public static final int abs__bright_foreground_holo_dark=0x7f080002;
         public static final int abs__bright_foreground_holo_light=0x7f080003;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f080021;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f080022;
-        public static final int abs__primary_text_holo_dark=0x7f080023;
-        public static final int abs__primary_text_holo_light=0x7f080024;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f080024;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f080025;
+        public static final int abs__primary_text_holo_dark=0x7f080026;
+        public static final int abs__primary_text_holo_light=0x7f080027;
         public static final int background=0x7f080010;
         public static final int black=0x7f080012;
+        public static final int clouds=0x7f080022;
         public static final int common_action_bar_splitter=0x7f08000f;
         /**  Sign-in Button Colors 
          */
@@ -1009,9 +1010,11 @@ Enable automatic exception tracking
         public static final int common_signin_btn_light_text_disabled=0x7f08000c;
         public static final int common_signin_btn_light_text_focused=0x7f08000d;
         public static final int common_signin_btn_light_text_pressed=0x7f08000b;
-        public static final int common_signin_btn_text_dark=0x7f080025;
-        public static final int common_signin_btn_text_light=0x7f080026;
+        public static final int common_signin_btn_text_dark=0x7f080028;
+        public static final int common_signin_btn_text_light=0x7f080029;
+        public static final int darkgray=0x7f080021;
         public static final int emerald=0x7f08001a;
+        public static final int fb_light_blue=0x7f080023;
         public static final int gray=0x7f080014;
         public static final int green=0x7f080013;
         public static final int greensea=0x7f080020;
@@ -1315,7 +1318,7 @@ Enable automatic exception tracking
         public static final int splash2=0x7f0200a9;
     }
     public static final class id {
-        public static final int RelativeLayout01=0x7f060067;
+        public static final int RelativeLayout01=0x7f060068;
         public static final int abs__action_bar=0x7f060024;
         public static final int abs__action_bar_container=0x7f060023;
         public static final int abs__action_bar_subtitle=0x7f060015;
@@ -1357,8 +1360,8 @@ Enable automatic exception tracking
         public static final int abs__up=0x7f06000b;
         public static final int ad_layout=0x7f06005b;
         public static final int blurred_image=0x7f060048;
-        public static final int btn_increment=0x7f06006b;
-        public static final int btn_spin=0x7f06006a;
+        public static final int btn_increment=0x7f06006c;
+        public static final int btn_spin=0x7f06006b;
         public static final int chemical_pollutants_container=0x7f060053;
         public static final int chemical_pollutants_heading=0x7f060054;
         public static final int chemical_pollutants_image=0x7f060055;
@@ -1388,12 +1391,13 @@ Enable automatic exception tracking
         public static final int lblMessage=0x7f06003f;
         public static final int lblRecommendation=0x7f060040;
         public static final int lblTitle=0x7f06003d;
+        public static final int lbl_particle_info=0x7f060067;
         public static final int linearLayout1=0x7f06003e;
         public static final int listMode=0x7f060002;
         public static final int list_slidermenu=0x7f060045;
-        public static final int mnuKnowMore=0x7f060070;
-        public static final int mnuRecommend=0x7f060071;
-        public static final int mnuShowCity=0x7f06006f;
+        public static final int mnuKnowMore=0x7f060071;
+        public static final int mnuRecommend=0x7f060072;
+        public static final int mnuShowCity=0x7f060070;
         public static final int none=0x7f060010;
         public static final int normal=0x7f060001;
         public static final int normal_image=0x7f060049;
@@ -1403,10 +1407,10 @@ Enable automatic exception tracking
         public static final int particle_pollutants_value=0x7f060052;
         public static final int pm25=0x7f06005d;
         public static final int progressBar=0x7f060066;
-        public static final int progressBarFour=0x7f06006e;
-        public static final int progressBarThree=0x7f06006d;
-        public static final int progressBarTwo=0x7f06006c;
-        public static final int progressImage=0x7f060068;
+        public static final int progressBarFour=0x7f06006f;
+        public static final int progressBarThree=0x7f06006e;
+        public static final int progressBarTwo=0x7f06006d;
+        public static final int progressImage=0x7f060069;
         public static final int pw_container=0x7f06004c;
         public static final int pw_spinner=0x7f06004e;
         public static final int rl_login_header=0x7f060062;
@@ -1418,7 +1422,7 @@ Enable automatic exception tracking
         public static final int tabMode=0x7f060003;
         public static final int terrain=0x7f060012;
         public static final int title=0x7f060060;
-        public static final int tv_progressText=0x7f060069;
+        public static final int tv_progressText=0x7f06006a;
         public static final int txtGasEffects=0x7f06003a;
         public static final int txtGasIntro=0x7f060039;
         public static final int txtGasName=0x7f060038;
@@ -1466,10 +1470,11 @@ Enable automatic exception tracking
         public static final int custom_text_view=0x7f03001c;
         public static final int drawer_list_item=0x7f03001d;
         public static final int main=0x7f03001e;
-        public static final int progress_spinner=0x7f03001f;
-        public static final int progress_wheel_activity=0x7f030020;
-        public static final int sherlock_spinner_dropdown_item=0x7f030021;
-        public static final int sherlock_spinner_item=0x7f030022;
+        public static final int particle_fragment=0x7f03001f;
+        public static final int progress_spinner=0x7f030020;
+        public static final int progress_wheel_activity=0x7f030021;
+        public static final int sherlock_spinner_dropdown_item=0x7f030022;
+        public static final int sherlock_spinner_item=0x7f030023;
     }
     public static final class menu {
         public static final int main=0x7f0e0000;
@@ -1541,8 +1546,8 @@ Enable automatic exception tracking
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f0b0021;
-        public static final int co_effects=0x7f0b0032;
-        public static final int co_intro=0x7f0b0031;
+        public static final int co_effects=0x7f0b0033;
+        public static final int co_intro=0x7f0b0032;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -1626,10 +1631,11 @@ Replace placeholder ID with your tracking ID
         public static final int ga_trackingId=0x7f0b0029;
         public static final int hello=0x7f0b0027;
         public static final int hello_world=0x7f0b002b;
-        public static final int no2_effects=0x7f0b0034;
-        public static final int no2_intro=0x7f0b0033;
-        public static final int ozone_effects=0x7f0b0030;
-        public static final int ozone_intro=0x7f0b002f;
+        public static final int no2_effects=0x7f0b0035;
+        public static final int no2_intro=0x7f0b0034;
+        public static final int ozone_effects=0x7f0b0031;
+        public static final int ozone_intro=0x7f0b0030;
+        public static final int pm25info=0x7f0b002f;
     }
     public static final class style {
         /** 

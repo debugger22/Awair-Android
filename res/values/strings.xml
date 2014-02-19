@@ -31,5 +31,8 @@
      
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+    
+    
+    <string name="pm25info">Particulate matter, or PM, is the term for particles found in the air, including dust, dirt, soot, smoke, fumes, ash, pollen and liquid droplets. Particulate matter is characterized according to size - mainly because of the different health effects associated with particles of different diameters. Both PM10 (big) and PM2.5 (small) particles can cause health problems; specifically respiratory health.</string>
  
 </resources>

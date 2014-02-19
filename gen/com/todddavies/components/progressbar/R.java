@@ -32,24 +32,24 @@ public final class R {
 		public static final int logo = 0x7f0200a5;
 	}
 	public static final class id {
-		public static final int RelativeLayout01 = 0x7f060067;
-		public static final int btn_increment = 0x7f06006b;
-		public static final int btn_spin = 0x7f06006a;
+		public static final int RelativeLayout01 = 0x7f060068;
+		public static final int btn_increment = 0x7f06006c;
+		public static final int btn_spin = 0x7f06006b;
 		public static final int iv_login_header_image = 0x7f060063;
 		public static final int progressBar = 0x7f060066;
-		public static final int progressBarFour = 0x7f06006e;
-		public static final int progressBarThree = 0x7f06006d;
-		public static final int progressBarTwo = 0x7f06006c;
-		public static final int progressImage = 0x7f060068;
+		public static final int progressBarFour = 0x7f06006f;
+		public static final int progressBarThree = 0x7f06006e;
+		public static final int progressBarTwo = 0x7f06006d;
+		public static final int progressImage = 0x7f060069;
 		public static final int rl_login_header = 0x7f060062;
-		public static final int tv_progressText = 0x7f060069;
+		public static final int tv_progressText = 0x7f06006a;
 		public static final int v_login_gradient = 0x7f060064;
 		public static final int vf_login_flipper = 0x7f060065;
 	}
 	public static final class layout {
 		public static final int main = 0x7f03001e;
-		public static final int progress_spinner = 0x7f03001f;
-		public static final int progress_wheel_activity = 0x7f030020;
+		public static final int progress_spinner = 0x7f030020;
+		public static final int progress_wheel_activity = 0x7f030021;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f0b0028;

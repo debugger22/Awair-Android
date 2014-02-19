@@ -15,6 +15,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class KnowMore extends Activity {
+public class KnowMore extends FragmentActivity {
 	
 		private DrawerLayout mDrawerLayout;
 	    private ListView mDrawerList;
@@ -57,6 +60,7 @@ public class KnowMore extends Activity {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getActionBar().setIcon(android.R.drawable.ic_menu_help);
         
         mTitle = mDrawerTitle = getTitle();
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
@@ -113,6 +117,7 @@ public class KnowMore extends Activity {
 		            // on first time display view for first nav item
 		            //displayView(0);
 		        }
+		        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 	}
 	
 	@Override
@@ -177,6 +182,60 @@ public class KnowMore extends Activity {
 	        // Pass any configuration change to the drawer toggls
 	        mDrawerToggle.onConfigurationChanged(newConfig);
 	    }
+	    
+	    private class SlideMenuClickListener implements
+		ListView.OnItemClickListener {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				// display view for selected nav drawer item
+				displayView(position);
+			}
+	    }
+	    
+	    private void displayView(int position) {
+			// update the main content by replacing fragments
+			Fragment fragment = null;
+			switch (position) {
+			case 0:
+				fragment = new ParticleFragment();
+				break;
+			case 1:
+				//fragment = new FindPeopleFragment();
+				break;
+			case 2:
+				//fragment = new PhotosFragment();
+				break;
+			case 3:
+				//fragment = new CommunityFragment();
+				break;
+			case 4:
+				//fragment = new PagesFragment();
+				break;
+			case 5:
+				//fragment = new WhatsHotFragment();
+				break;
+
+			default:
+				break;
+			}
+
+			if (fragment != null) {
+				FragmentManager fragmentManager = getSupportFragmentManager();
+				fragmentManager.beginTransaction()
+						.replace(R.id.frame_container, fragment).commit();
+
+				// update selected item and title, then close the drawer
+				mDrawerList.setItemChecked(position, true);
+				mDrawerList.setSelection(position);
+				setTitle(navMenuTitles[position]);
+				mDrawerLayout.closeDrawer(mDrawerList);
+			} else {
+				// error in creating fragment
+				Log.e("MainActivity", "Error in creating fragment");
+			}
+		}
+	    
 	
 	
 }
