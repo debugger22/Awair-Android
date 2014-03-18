@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/fb_light_blue"
+    android:padding="10dp" >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/white" >
+
+        <TextView
+            android:id="@+id/lblSelectCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select a city"
+            android:textSize="@dimen/okText"
+            android:textColor="@color/fb_dark_blue"
+            android:layout_marginBottom="10dp" />
+		<Spinner
+	        android:id="@+id/citiesSpinner"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+  
+    <LinearLayout
+        android:id="@+id/comparisonDataConatainer"
+        android:visibility="invisible"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:padding="10dp"
+      android:layout_marginBottom="20dp"
+      android:background="@color/white" >
+
+	<TextView
+            android:id="@+id/lblDataComparion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comparion data"
+            android:textSize="@dimen/okText"
+            android:textColor="@color/fb_dark_blue"
+            android:layout_marginBottom="10dp" />
+
+	<GridView
+	    android:id="@+id/comparisionGrid"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:numColumns="2" >
+	    
+	</GridView>
+
+  </LinearLayout>
+</LinearLayout>

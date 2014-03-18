@@ -31,6 +31,8 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -71,7 +73,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 			startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 			Toast.makeText(this, "Please turn on Network based location service.", Toast.LENGTH_SHORT).show();
 		}else{
-			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+			//locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		}
 		
 		dialog = new ProgressDialog(MainActivity.this);
@@ -216,6 +218,15 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 									    		}
 									    		dialog.dismiss();
 									    		
+									    		try {
+									    			OutputStreamWriter outputStreamWriter = new OutputStreamWriter
+									    					(MainActivity.this.openFileOutput(UserDataManager.FILENAME, Context.MODE_PRIVATE));
+									    			outputStreamWriter.write("name::email::1::1::0::0");
+									    			outputStreamWriter.close();
+												}catch (IOException e) {
+											        Log.e("UserDataManager", "File not found to write in: " + e.toString());
+											    } 
+									    		
 									    		Intent i = new Intent(MainActivity.this,ViewActivity.class);
 									    		finish();
 									    		startActivity(i);
@@ -292,7 +303,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 									{
 								    @Override
 								    public void onSuccess(String response) {
-								    	Toast.makeText(MainActivity.this, "Error has been reported. We'll fix this issue in next release.", Toast.LENGTH_LONG).show();
+
 								    }
 								    @Override
 								    public void onFailure(Throwable error, String response){

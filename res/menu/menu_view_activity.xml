@@ -4,4 +4,5 @@
     <!-- <item android:id="@+id/mnuGetDetails" android:enabled="true" android:showAsAction="always|withText" android:title="Details" android:visible="true"></item>-->
     <item android:id="@+id/mnuKnowMore" android:title="Know More" android:enabled="true" android:showAsAction="ifRoom" android:icon="@drawable/detail" android:visible="true"></item>
 	<item android:id="@+id/mnuRecommend" android:title="Recommend" android:icon="@drawable/ic_action_social_share" android:enabled="true" android:showAsAction="ifRoom" android:visible="true"></item>
+<!--<item android:id="@+id/mnuShareOnFB" android:title="Share on Facebook" android:icon="@drawable/ic_action_social_share" android:enabled="true" android:showAsAction="ifRoom" android:visible="true"></item>-->
 </menu>

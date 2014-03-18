@@ -29,8 +29,8 @@ public final class DatabaseReader {
         
     }
     
-
-	private static final String TEXT_TYPE = " TEXT";
+    private static final String TEXT_TYPE = " TEXT";
+    private static final String INT_TYPE = " INTEGER";
 	private static final String COMMA_SEP = ",";
 	public static final String SQL_CREATE =
 	    "CREATE TABLE " + AirData.TABLE_NAME + " (" +
@@ -52,5 +52,36 @@ public final class DatabaseReader {
 	
 	public static final String SQL_DELETE =
 		    "DROP TABLE IF EXISTS " + AirData.TABLE_NAME;
+	
+    /*
+    public static abstract class UserData implements BaseColumns {
+        public static final String TABLE_NAME = "userdata";
+        public static final String ID = "id";
+        public static final String USER_NAME = "user_name";
+        public static final String USER_EMAIL = "user_email";
+        public static final String IS_RATED = "is_rated";
+        public static final String ENABLE_NOTIFICATIONS = "enable_notifications";
+        public static final String ENABLE_DID_YOU_KNOW = "enable_did_you_know";
+        public static final String FACEBOOK_CONNECTED = "facebook_connected";
+    }
+    
+    
+	public static final String SQL_CREATE_USERDATA =
+	    "CREATE TABLE " + AirData.TABLE_NAME + " (" +
+	    UserData.ID + " INT(1) PRIMARY KEY," +
+	    UserData.USER_NAME + TEXT_TYPE + COMMA_SEP +
+	    UserData.USER_EMAIL + TEXT_TYPE + COMMA_SEP +
+	    UserData.IS_RATED + INT_TYPE + COMMA_SEP +
+	    UserData.ENABLE_NOTIFICATIONS + TEXT_TYPE + COMMA_SEP +
+	    UserData.ENABLE_DID_YOU_KNOW + TEXT_TYPE + COMMA_SEP +
+	    UserData.FACEBOOK_CONNECTED + INT_TYPE + COMMA_SEP +
+	     // Any other options for the CREATE command
+	    " )";
+	
+	public static final String SQL_DELETE_USERDATA =
+		    "DROP TABLE IF EXISTS " + UserData.TABLE_NAME;
+     */
+    
+	
 
 }

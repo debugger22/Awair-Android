@@ -8,55 +8,55 @@ package com.todddavies.components.progressbar;
 
 public final class R {
 	public static final class attr {
-		public static final int barColor = 0x7f010075;
-		public static final int barLength = 0x7f01007d;
-		public static final int barWidth = 0x7f01007c;
-		public static final int circleColor = 0x7f01007a;
-		public static final int contourColor = 0x7f01007e;
-		public static final int contourSize = 0x7f01007f;
-		public static final int delayMillis = 0x7f010079;
-		public static final int radius = 0x7f01007b;
-		public static final int rimColor = 0x7f010076;
-		public static final int rimWidth = 0x7f010077;
-		public static final int spinSpeed = 0x7f010078;
-		public static final int text = 0x7f010072;
-		public static final int textColor = 0x7f010073;
-		public static final int textSize = 0x7f010074;
+		public static final int barColor = 0x7f010087;
+		public static final int barLength = 0x7f01008f;
+		public static final int barWidth = 0x7f01008e;
+		public static final int circleColor = 0x7f01008c;
+		public static final int contourColor = 0x7f010090;
+		public static final int contourSize = 0x7f010091;
+		public static final int delayMillis = 0x7f01008b;
+		public static final int radius = 0x7f01008d;
+		public static final int rimColor = 0x7f010088;
+		public static final int rimWidth = 0x7f010089;
+		public static final int spinSpeed = 0x7f01008a;
+		public static final int text = 0x7f010084;
+		public static final int textColor = 0x7f010085;
+		public static final int textSize = 0x7f010086;
 	}
 	public static final class drawable {
-		public static final int header = 0x7f020095;
-		public static final int ic_launcher = 0x7f020099;
-		public static final int icon = 0x7f02009e;
-		public static final int login_gradient = 0x7f0200a3;
-		public static final int login_gradient_flip = 0x7f0200a4;
-		public static final int logo = 0x7f0200a5;
+		public static final int header = 0x7f0200b5;
+		public static final int ic_launcher = 0x7f0200ba;
+		public static final int icon = 0x7f0200bf;
+		public static final int login_gradient = 0x7f0200c4;
+		public static final int login_gradient_flip = 0x7f0200c5;
+		public static final int logo = 0x7f0200c6;
 	}
 	public static final class id {
-		public static final int RelativeLayout01 = 0x7f060079;
-		public static final int btn_increment = 0x7f06007d;
-		public static final int btn_spin = 0x7f06007c;
-		public static final int iv_login_header_image = 0x7f06006f;
-		public static final int progressBar = 0x7f060072;
-		public static final int progressBarFour = 0x7f060080;
-		public static final int progressBarThree = 0x7f06007f;
-		public static final int progressBarTwo = 0x7f06007e;
-		public static final int progressImage = 0x7f06007a;
-		public static final int rl_login_header = 0x7f06006e;
-		public static final int tv_progressText = 0x7f06007b;
-		public static final int v_login_gradient = 0x7f060070;
-		public static final int vf_login_flipper = 0x7f060071;
+		public static final int RelativeLayout01 = 0x7f06009a;
+		public static final int btn_increment = 0x7f06009e;
+		public static final int btn_spin = 0x7f06009d;
+		public static final int iv_login_header_image = 0x7f060090;
+		public static final int progressBar = 0x7f060093;
+		public static final int progressBarFour = 0x7f0600a1;
+		public static final int progressBarThree = 0x7f0600a0;
+		public static final int progressBarTwo = 0x7f06009f;
+		public static final int progressImage = 0x7f06009b;
+		public static final int rl_login_header = 0x7f06008f;
+		public static final int tv_progressText = 0x7f06009c;
+		public static final int v_login_gradient = 0x7f060091;
+		public static final int vf_login_flipper = 0x7f060092;
 	}
 	public static final class layout {
-		public static final int main = 0x7f030020;
-		public static final int progress_spinner = 0x7f030022;
-		public static final int progress_wheel_activity = 0x7f030023;
+		public static final int main = 0x7f030030;
+		public static final int progress_spinner = 0x7f030032;
+		public static final int progress_wheel_activity = 0x7f030033;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f0b0028;
-		public static final int hello = 0x7f0b0027;
+		public static final int app_name = 0x7f090041;
+		public static final int hello = 0x7f090040;
 	}
 	public static final class styleable {
-		public static final int[] ProgressWheel = { 0x7f010072, 0x7f010073, 0x7f010074, 0x7f010075, 0x7f010076, 0x7f010077, 0x7f010078, 0x7f010079, 0x7f01007a, 0x7f01007b, 0x7f01007c, 0x7f01007d, 0x7f01007e, 0x7f01007f };
+		public static final int[] ProgressWheel = { 0x7f010084, 0x7f010085, 0x7f010086, 0x7f010087, 0x7f010088, 0x7f010089, 0x7f01008a, 0x7f01008b, 0x7f01008c, 0x7f01008d, 0x7f01008e, 0x7f01008f, 0x7f010090, 0x7f010091 };
 		public static final int ProgressWheel_barColor = 3;
 		public static final int ProgressWheel_barLength = 11;
 		public static final int ProgressWheel_barWidth = 10;

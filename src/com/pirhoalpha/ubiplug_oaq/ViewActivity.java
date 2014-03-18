@@ -2,23 +2,21 @@ package com.pirhoalpha.ubiplug_oaq;
 
 
 
-import java.io.File;
 import java.io.IOException;
-
-
 import java.util.HashMap;
-import com.google.android.gms.ads.*;
+
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.analytics.tracking.android.EasyTracker;
 
 
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
@@ -39,18 +37,12 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.todddavies.components.progressbar.ProgressWheel;
 
-//Weather classes
-import zh.wang.android.apis.yweathergetter4a.MyLog;
-import zh.wang.android.apis.yweathergetter4a.WeatherInfo;
-import zh.wang.android.apis.yweathergetter4a.YahooWeather;
-import zh.wang.android.apis.yweathergetter4a.YahooWeatherInfoListener;
-import zh.wang.android.apis.yweathergetter4a.WeatherInfo.ForecastInfo;
-import zh.wang.android.apis.yweathergetter4a.YahooWeather.SEARCH_MODE;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.renderscript.Allocation;
@@ -69,7 +61,9 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -79,8 +73,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -104,26 +96,20 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ViewActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener,YahooWeatherInfoListener{
+public class ViewActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener{
 	private DatabaseReaderHelper mDbHelper;
 	private HashMap<String,String> data;
 	private Boolean GSMDataAdded = false;
-	private Double lat=(double) 0;
-	private Double lng=(double) 0;
+	public static Double lat=(double) 0;
+	public static Double lng=(double) 0;
 	private Animation animFadeIn;
 	private Animation animFadeIn1000;
 	private Animation animFadeOut;
 	private LocationClient locationclient;
 	private LocationRequest locationrequest;
-	private AdView adView;
-	private RelativeLayout layout;
-	private LinearLayout adLayout;
-	private FrameLayout viewFrame;
 	private ProgressWheel pwoverall;
 	private ImageView background;
 	private ImageView backgroundBlurred;
@@ -133,6 +119,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	private TextView gaseousText;
 	private TextView particleText;
 	private TextView chemicalText;
+	private TextView lblSmallSuggest;
 	private LinearLayout particleContainer;
 	private LinearLayout chemicalContainer;
 	private LinearLayout gaseousContainer;
@@ -156,6 +143,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
     GoogleCloudMessaging gcm;
     String regid;
     private String chemicalValue;
+    private String percentQuality;
     
     
 	//Data variables
@@ -178,8 +166,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	private TextView lblGaseousPollutantsHeading;
 	private TextView lblChemicalPollutantsHeading;
 	private MenuItem mnuShowCity;
-	private ScrollView container;
-	private MenuItem mnuGetDetails;
+
 	
 	
 	@SuppressLint("HandlerLeak")
@@ -194,7 +181,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
             }
         }
     };
-   
+    
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -209,7 +196,11 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
-		//-------------------------------------------Registering for GCM--------------------------------------
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        
+        //-------------------------------------------Registering for GCM--------------------------------------
 		context = ViewActivity.this;	
 		if (checkPlayServices()) {
 			gcm = GoogleCloudMessaging.getInstance(this);
@@ -248,73 +239,53 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_PM25).split(" ");
 			pm25 = Integer.parseInt(temp[0]);
-			//minpm25 = Integer.parseInt(temp[2]);
-			//maxpm25 = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_O3).split(" ");
 			o3 = Integer.parseInt(temp[0]);
-			//mino3 = Integer.parseInt(temp[2]);
-			//maxo3 = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_NO2).split(" ");
 			no2 = Integer.parseInt(temp[0]);
-			//minno2 = Integer.parseInt(temp[2]);
-			//maxno2 = Integer.parseInt(temp[1]);
-			
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_SO2).split(" ");
 			so2 = Integer.parseInt(temp[0]);
-			//minso2 = Integer.parseInt(temp[2]);
-			//maxso2 = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_CO).split(" ");
-			co = Integer.parseInt(temp[0]);
-			//minco = Integer.parseInt(temp[2]);
-			//maxco = Integer.parseInt(temp[1]);
-				
+			co = Integer.parseInt(temp[0]);				
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_DEW).split(" ");
 			dew = Integer.parseInt(temp[0]);
-			//mindew = Integer.parseInt(temp[2]);
-			//maxdew = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_WIND).split(" ");
 			wind = Integer.parseInt(temp[0]);
-			//minwind = Integer.parseInt(temp[2]);
-			//maxwind = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_TEMPERATURE).split(" ");
 			temperature = Integer.parseInt(temp[0]);
-			//mintemperature = Integer.parseInt(temp[2]);
-			//maxtemperature = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
 		try{
 			temp = data.get(DatabaseReader.AirData.COLUMN_NAME_PRESSURE).split(" ");
 			pressure = Integer.parseInt(temp[0]);
-			//minpressure = Integer.parseInt(temp[2]);
-			//maxpressure = Integer.parseInt(temp[1]);
 		}catch(Exception e){
 			Log.v("ValueError", e.toString());
 		}
@@ -330,13 +301,11 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		//data.clear(); //Freed some space
 		
 		//View variables assignment
-		viewFrame = (FrameLayout)findViewById(R.id.view_frame);
-		adLayout = (LinearLayout)findViewById(R.id.ad_layout);
+		lblSmallSuggest = (TextView)findViewById(R.id.lblSmallSuggest);
 		lblAirQuality = (TextView)findViewById(R.id.lblAirQuality);
 		lblParticlePollutantsHeading = (TextView)findViewById(R.id.particle_pollutants_heading);
 		lblGaseousPollutantsHeading = (TextView)findViewById(R.id.gaseous_pollutants_heading);
 		lblChemicalPollutantsHeading = (TextView)findViewById(R.id.chemical_pollutants_heading);
-		container = (ScrollView)findViewById(R.id.container_activity_view);
 		pwoverall = (ProgressWheel) findViewById(R.id.pw_spinner);
 		pwoverall.setTextColor(Color.WHITE);
 		pwoverall.setRimColor(Color.WHITE);
@@ -351,17 +320,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		particleContainer = (LinearLayout)findViewById(R.id.particle_pollutants_container);
 		chemicalContainer = (LinearLayout)findViewById(R.id.chemical_pollutants_container);
 		gaseousContainer = (LinearLayout)findViewById(R.id.gaseous_pollutants_container);
-	
-		
-		adView = new AdView(this);
-		adView.setAdUnitId(MY_AD_UNIT_ID);
-	    adView.setAdSize(AdSize.SMART_BANNER);
-	    layout = (RelativeLayout)findViewById(R.id.view_layout);
-	    RelativeLayout.LayoutParams lay = new RelativeLayout.LayoutParams(
-	    	    RelativeLayout.LayoutParams.WRAP_CONTENT, 
-	    	    RelativeLayout.LayoutParams.WRAP_CONTENT);
-	    lay.addRule(RelativeLayout.ALIGN_BOTTOM);
-	    adLayout.addView(adView);
 	    final TelephonyManager tm = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
 	    deviceId = Secure.getString(getApplicationContext().getContentResolver(),Secure.ANDROID_ID);
 	    
@@ -373,6 +331,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		particleText.setTypeface(tfhl);
 		chemicalText.setTypeface(tfhl);
 		gaseousText.setTypeface(tfhl);
+		lblSmallSuggest.setTypeface(tfhl);
 		
 		if(android.os.Build.VERSION.SDK_INT<14){
 			particleContainer.setBackground(null);
@@ -388,12 +347,24 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		pwoverall.setAnimation(animFadeIn1000);
 		pwoverall.setVisibility(View.INVISIBLE);
 		updateUi();
+
+		
 	}
 	
 	@Override
 	public void onStart(){
 		super.onStart();
 		EasyTracker.getInstance(this).activityStart(this);
+		//Registering alarmmanager for notifications on 08:00 AM
+	 	Calendar calendar = Calendar.getInstance();
+	    calendar.set(Calendar.HOUR_OF_DAY, 8);
+	    calendar.set(Calendar.MINUTE, 00);
+	    calendar.set(Calendar.SECOND, 00);
+	    Intent intent = new Intent(this, ClientNotificationService.class);
+	    PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
+	    AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+	    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , pintent);
+	    Log.v("Alarm", "Alarm registered");
 	}
 
 	@Override
@@ -411,7 +382,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_view_activity, menu);
 		mnuShowCity = (MenuItem)menu.findItem(R.id.mnuShowCity);
-		//mnuGetDetails = (MenuItem)menu.findItem(R.id.mnuGetDetails);
 		mnuShowCity.setTitle(city_name);
 		return true;
 	}
@@ -435,7 +405,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	        case R.id.mnuKnowMore:
 	        	Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
 	        	i1.putExtra("pollutants_data", new String[]{String.valueOf(pm25),
-	        			chemicalValue,String.valueOf(o3)});
+	        			chemicalValue,String.valueOf(o3),city_name});
 	        	startActivity(i1);
 	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 	    		break;
@@ -447,6 +417,38 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	        	sendIntent.setType("text/plain");
 	        	startActivity(Intent.createChooser(sendIntent, "Share Awair with your loved ones"));
 	        	break;
+	        /*
+	        case R.id.mnuShareOnFB:
+	        	Thread fbPost = new Thread(new Runnable(){
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						Bundle params = new Bundle();
+			        	params.putString("air_quality", "http://www.ubiplug.com/awair/test.html");
+
+			        	final Request request = new Request(
+			        	    Session.getActiveSession(),
+			        	    "me/pirhoalpha:measure",
+			        	    params,
+			        	    HttpMethod.POST
+			        	);
+						Response response = request.executeAndWait();
+						/*
+						if (response.getError().getErrorCode()==-1){
+							runOnUiThread(new Runnable(){
+								@Override
+								public void run() {
+									Toast.makeText(ViewActivity.this, "Please Log in with Facebook in settings", Toast.LENGTH_SHORT).show();
+								}
+								
+							});	
+						}*/
+	//					Log.v("Facebook", response.toString());
+	//				}
+	 //       	});
+	 //       	fbPost.start();     	
+	 //       	break;
 	    }
 		return true;
 	}
@@ -456,20 +458,24 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	private void updateUi(){
 		
 		final int temp = (int) (100-(Math.min(Double.valueOf(pm25), 480.0)/5.0));
+		percentQuality = String.valueOf((int) (100-(Math.min(Double.valueOf(pm25), 480.0)/5.0)));
 		
 		if (temp>80){
 			background.setImageDrawable(getResources().getDrawable(R.drawable.bg_green));
 			backgroundBlurred.setImageDrawable(getResources().getDrawable(R.drawable.bg_green_blurred));
+			lblSmallSuggest.setText(getResources().getString(R.string.suggest_good));
 			
 		}
 			
 		else if(temp<=80 && temp>50){
 			background.setImageDrawable(getResources().getDrawable(R.drawable.bg_yellow));
 			backgroundBlurred.setImageDrawable(getResources().getDrawable(R.drawable.bg_yellow_blurred));
+			lblSmallSuggest.setText(getResources().getString(R.string.suggest_moderate));
 		}
 		else if(temp<=50){ 
 			background.setImageDrawable(getResources().getDrawable(R.drawable.bg_red));
 			backgroundBlurred.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_blurred));
+			lblSmallSuggest.setText(getResources().getString(R.string.suggest_bad));
 		}
 		
 		float devisor = 4;
@@ -494,7 +500,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
                         message.setData(data);
                         handler.sendMessage(message);
                     }
-                    //background.setAlpha((float)0.0);
                     
                 }
                 catch (Throwable t) {
@@ -762,13 +767,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 						runOnUiThread(new Runnable (){
 							@Override
 							public void run() {
-								//Getting weather info
-						        try{
-						        	//mYahooWeather.queryYahooWeatherByLatLon(getApplicationContext(), String.valueOf(lat), String.valueOf(lng), ViewActivity.this);
-						        }catch(Exception e){
-						        	Log.v("Weather", e.toString());
-						        }
-						        //getActionBar().setSubtitle("Updating...");
 								final String url = new String(DatabaseReader.AirData.BASE_URL);
 								final int DEFAULT_TIMEOUT = 100 * 1000;
 						    	try {
@@ -798,8 +796,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 											    		
 											    		int newRowId = mDbHelper.addData(data);
 											    		if(newRowId!=-1){
-											    			//Toast.makeText(ViewActivity.this, String.valueOf(newRowId), Toast.LENGTH_SHORT).show();
-											    			//getActionBar().setSubtitle("");
 											    			if(android.os.Build.VERSION.SDK_INT>=15)mnuShowCity.setTitle(data.get("city_name"));
 											    			if(android.os.Build.VERSION.SDK_INT>=15)mnuShowCity.setEnabled(true);
 											    			if(!(Integer.parseInt(data.get("pm25").split(" ")[0])==pm25)){
@@ -829,7 +825,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 											    			
 											    		}else{
 											    			Toast.makeText(ViewActivity.this, "Data not added", Toast.LENGTH_SHORT).show();
-											    			//getActionBar().setSubtitle(date);
 											    			
 											    		}
 											    		mDbHelper.close();
@@ -838,7 +833,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 											    	}catch(Exception pe){
 											    		Log.v("PARSE_ERROR",pe.toString());
 											    		reportError(pe.toString()+response);
-											    		//getActionBar().setSubtitle("");
 											    	}
 						        	    	
 						        	    }
@@ -847,7 +841,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 						        	    public void onFailure(Throwable error, String response){
 						        	    	Log.v("INTERNET_ERROR1", "Could not connect to internet "+response);
 						        	    	reportError(error.toString()+response);
-						        	    	//getActionBar().setSubtitle("");
 						        	    	
 						        	    }
 						        	    
@@ -856,7 +849,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 						    	catch(Exception e){
 						    		Log.v("INTERNET", "Unable to connect"+e.toString());
 						    		reportError(e.toString());
-						    		//getActionBar().setSubtitle("");
 						    	}
 							}
 							
@@ -875,15 +867,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		    new Handler().postDelayed(r, 1);
 		    GSMDataAdded = true;
 		}
-	}
-
-	@Override
-	public void gotWeatherInfo(WeatherInfo weatherInfo) {
-		if (weatherInfo != null) {
-			final ForecastInfo forecastInfo = weatherInfo.getForecastInfoList().get(0);
-            Log.v("Weather", forecastInfo.getForecastText());
-		}
-	  
 	}
 	
 	public void reportError(final String message){
@@ -907,7 +890,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 									{
 								    @Override
 								    public void onSuccess(String response) {
-								    	Toast.makeText(ViewActivity.this, "Error has been reported. We'll fix this issue in next release.", Toast.LENGTH_LONG).show();
+								    	
 								    }
 								    @Override
 								    public void onFailure(Throwable error, String response){
@@ -939,8 +922,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 }
 
 
-
-//Animation listener class
 class MyAnimationListener implements AnimationListener{
 
 	@Override

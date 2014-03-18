@@ -57,7 +57,7 @@
 	            android:paddingLeft="10dp"
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp" >
-	
+
 	            <TextView
 	                android:id="@+id/lblAirQuality"
 	                android:layout_width="wrap_content"
@@ -65,12 +65,13 @@
 	                android:text="Air Quality"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/okText" />
+
 	            <View
-				    android:layout_width="fill_parent"
-				    android:layout_height="1dp"
-				    android:layout_marginTop="3dp"
-				    android:background="@android:color/darker_gray"/>
-	
+	                android:layout_width="fill_parent"
+	                android:layout_height="1dp"
+	                android:layout_marginTop="3dp"
+	                android:background="@android:color/darker_gray" />
+
 	            <com.todddavies.components.progressbar.ProgressWheel
 	                android:id="@+id/pw_spinner"
 	                android:layout_width="@dimen/bigwheelradius"
@@ -85,7 +86,16 @@
 	                ProgressWheel:text="0%"
 	                ProgressWheel:textColor="#222"
 	                ProgressWheel:textSize="@dimen/normalText" />
-	
+
+	            <TextView
+	                android:id="@+id/lblSmallSuggest"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.42"
+	                android:textSize="@dimen/okText"
+	                android:textColor="@color/white"
+	                android:gravity="center"
+	                android:text="TextView" />
 	        </LinearLayout>
 	
 	        <LinearLayout

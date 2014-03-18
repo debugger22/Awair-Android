@@ -1,18 +1,15 @@
 package com.pirhoalpha.ubiplug_oaq;
 
+import com.facebook.*;
+import com.facebook.model.*;
+
 import java.util.ArrayList;
 
 import com.google.analytics.tracking.android.EasyTracker;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -20,17 +17,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class KnowMore extends FragmentActivity {
 	
@@ -69,20 +61,19 @@ public class KnowMore extends FragmentActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
         navDrawerItems = new ArrayList<NavDrawerItem>();
+        /*
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1),true,
         		((String[])getIntent().getSerializableExtra("pollutants_data"))[0]));
-        // Find People
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1),true,
         		((String[])getIntent().getSerializableExtra("pollutants_data"))[1]));
-        // Photos
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1),true,
         		((String[])getIntent().getSerializableExtra("pollutants_data"))[2]));
-        // Communities, Will add a counter here
+        */
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
-        // Pages
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-        // What's hot, We  will add a counter here
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
+        //navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
         
         navMenuIcons.recycle();
         
@@ -207,14 +198,11 @@ public class KnowMore extends FragmentActivity {
 				fragment = new GaseousFragment();
 				break;
 			case 3:
-				//fragment = new CommunityFragment();
+				fragment = new AboutFragment();
 				break;
-			case 4:
-				//fragment = new PagesFragment();
-				break;
-			case 5:
-				//fragment = new WhatsHotFragment();
-				break;
+			//case 3:
+			//	fragment = new SettingsFragment();
+			//	break;
 
 			default:
 				break;
@@ -235,6 +223,15 @@ public class KnowMore extends FragmentActivity {
 				Log.e("MainActivity", "Error in creating fragment");
 			}
 		}
+	    
+	    /**
+	     * For Facebook session management
+	     */
+	    @Override
+	    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	      super.onActivityResult(requestCode, resultCode, data);
+	      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+	    }
 	    
 	
 	
