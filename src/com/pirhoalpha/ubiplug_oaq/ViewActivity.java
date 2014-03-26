@@ -309,6 +309,22 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		pwoverall = (ProgressWheel) findViewById(R.id.pw_spinner);
 		pwoverall.setTextColor(Color.WHITE);
 		pwoverall.setRimColor(Color.WHITE);
+		
+		pwoverall.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
+	        	i1.putExtra("pollutants_data", new String[]{String.valueOf(pm25),
+	        			chemicalValue,String.valueOf(o3),city_name});
+	        	i1.putExtra("fromdonut", true);
+	        	startActivity(i1);
+	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+				
+			}
+			
+		});
+		
 		background = (ImageView)findViewById(R.id.normal_image);
 		backgroundBlurred = (ImageView)findViewById(R.id.blurred_image);
 		particleImage = (ImageView)findViewById(R.id.particle_pollutants_image);
@@ -406,6 +422,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	        	Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
 	        	i1.putExtra("pollutants_data", new String[]{String.valueOf(pm25),
 	        			chemicalValue,String.valueOf(o3),city_name});
+	        	i1.putExtra("fromdonut", false);
 	        	startActivity(i1);
 	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 	    		break;

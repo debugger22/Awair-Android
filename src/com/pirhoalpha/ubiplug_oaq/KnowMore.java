@@ -107,7 +107,8 @@ public class KnowMore extends FragmentActivity {
 		 
 		        if (savedInstanceState == null) {
 		            // on first time display view for first nav item
-		            displayView(0);
+		            if(getIntent().getBooleanExtra("fromdonut", false))displayView(3);
+		            else displayView(0);
 		        }
 		        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 	}

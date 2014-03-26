@@ -17,6 +17,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -39,8 +40,9 @@ import android.widget.Toast;
 
 public class CompareDataFragment extends Fragment {
     
-	private Map<String, HashMap<String, String>> sortedData;
-	private ArrayList<String> cities;
+	//private Map<String, HashMap<String, String>> sortedData;
+	//private ArrayList<String> cities;
+	private ProgressDialog dialog;
 	private String particleData;
 	private String chemicalData;
 	private String gaseousData;
@@ -76,7 +78,11 @@ public class CompareDataFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
     	super.onActivityCreated(savedInstanceState);
-    	cities = new ArrayList<String>();
+    	//cities = new ArrayList<String>();
+    	dialog = new ProgressDialog(getActivity());
+    	dialog.setMessage("Please wait");
+    	dialog.setCancelable(true);
+    	dialog.show();
     	getCitiesData(getActivity());
     	particleData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[0];
     	chemicalData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[1];
@@ -96,9 +102,22 @@ public class CompareDataFragment extends Fragment {
     	pCity3 = (ProgressBar)getActivity().findViewById(R.id.prog3);
     	pCity4 = (ProgressBar)getActivity().findViewById(R.id.prog4);
     	pCity5 = (ProgressBar)getActivity().findViewById(R.id.prog5);
-    	pCity6 = (ProgressBar)getActivity().findViewById(R.id.prog6);
+    	pCity6 = (ProgressBar)getActivity().findViewById(R.id.prog6);    
+    	progHome.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
+    	pCity1.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
+    	pCity2.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
+    	pCity3.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
+    	pCity4.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
+    	pCity5.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
+    	pCity6.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
     	
     	cityHome.setText("Your location");
+    	city1.setText("");
+    	city2.setText("");
+    	city3.setText("");
+    	city4.setText("");
+    	city5.setText("");
+    	city6.setText("");
     	progHome.setProgress(getPercentage(Integer.parseInt(particleData)));
     	
     }
@@ -156,18 +175,20 @@ public class CompareDataFragment extends Fragment {
 										sortedData.keySet().toArray()[4]).get("pm25").split(" ")[0])));
 								pCity6.setProgress(getPercentage(Integer.parseInt(sortedData.get(
 										sortedData.keySet().toArray()[5]).get("pm25").split(" ")[0])));
-								
+								dialog.dismiss();
 								
 								
 							} catch (ParseException e) {
 								// TODO Auto-generated catch block
 								Log.v("JSON PARSE ERROR", e.toString()+response);
+								dialog.dismiss();
 							}        	    	
 	        	    }
 	        	    
 	    	    	@Override
 	        	    public void onFailure(Throwable error, String response){
-	        	    	Log.v("INTERNET_ERROR1", "Something went wrong "+response);
+	        	    	Log.v("INTERNET_ERROR1", "Something went wrong "+response);	        	    
+						dialog.dismiss();
 	        	    }
 	        	    
 	           	});
