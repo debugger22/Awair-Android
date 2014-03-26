@@ -148,7 +148,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
     
 	//Data variables
 	public String date;
-	public String city_name;
+	public static String city_name;
 	public int  pm25=0;
 	public int o3=0;
 	public int no2=0;

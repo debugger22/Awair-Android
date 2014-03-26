@@ -31,6 +31,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -38,22 +39,30 @@ import android.widget.Toast;
 
 public class CompareDataFragment extends Fragment {
     
-	private Spinner citiesSpinner;
-	private Map<String, String> sortedData;
+	private Map<String, HashMap<String, String>> sortedData;
 	private ArrayList<String> cities;
-	private GridView comparisionGrid;
-	private LinearLayout compContainer;
 	private String particleData;
 	private String chemicalData;
 	private String gaseousData;
 	private String overallData;
-	private String otherParticleData;
-	private String otherChemicalData;
-	private String otherGaseousData;
-	private String otherOverallData;
 	
-	private String otherCityName;
-	private HashMap<String, String> pollutionData; 
+	private TextView cityHome;
+	private TextView city1;
+	private TextView city2;
+	private TextView city3;
+	private TextView city4;
+	private TextView city5;
+	private TextView city6;
+	
+	private ProgressBar progHome;
+	private ProgressBar pCity1;
+	private ProgressBar pCity2;
+	private ProgressBar pCity3;
+	private ProgressBar pCity4;
+	private ProgressBar pCity5;
+	private ProgressBar pCity6;
+
+	private HashMap<String, HashMap<String,String>> pollutionData; 
 	
 	
 	@Override
@@ -67,38 +76,37 @@ public class CompareDataFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
     	super.onActivityCreated(savedInstanceState);
-    	citiesSpinner = (Spinner)getActivity().findViewById(R.id.citiesSpinner);
     	cities = new ArrayList<String>();
-    	comparisionGrid = (GridView)getActivity().findViewById(R.id.comparisionGrid);
-    	compContainer = (LinearLayout)getActivity().findViewById(R.id.comparisonDataConatainer);
     	getCitiesData(getActivity());
-    	citiesSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				Double lat = Double.valueOf(sortedData.get(cities.get(position)).split(" ")[0]);
-				Double lng = Double.valueOf(sortedData.get(cities.get(position)).split(" ")[1]);
-				otherCityName = cities.get(position);
-				getData(getActivity(),lat,lng);
-				
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				Toast.makeText(getActivity(), "Please select a city to compare", Toast.LENGTH_SHORT).show();
-				
-			}
-    		
-    	});
     	particleData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[0];
     	chemicalData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[1];
     	gaseousData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[2];
     	overallData = String.valueOf((int) (100-(Math.min(Double.valueOf(particleData), 480.0)/5.0)));
+    	
+    	cityHome = (TextView)getActivity().findViewById(R.id.city_home);
+    	city1 = (TextView)getActivity().findViewById(R.id.city1);
+    	city2 = (TextView)getActivity().findViewById(R.id.city2);
+    	city3 = (TextView)getActivity().findViewById(R.id.city3);
+    	city4 = (TextView)getActivity().findViewById(R.id.city4);
+    	city5 = (TextView)getActivity().findViewById(R.id.city5);
+    	city6 = (TextView)getActivity().findViewById(R.id.city6);
+    	progHome = (ProgressBar)getActivity().findViewById(R.id.prog_home);
+    	pCity1 = (ProgressBar)getActivity().findViewById(R.id.prog1);
+    	pCity2 = (ProgressBar)getActivity().findViewById(R.id.prog2);
+    	pCity3 = (ProgressBar)getActivity().findViewById(R.id.prog3);
+    	pCity4 = (ProgressBar)getActivity().findViewById(R.id.prog4);
+    	pCity5 = (ProgressBar)getActivity().findViewById(R.id.prog5);
+    	pCity6 = (ProgressBar)getActivity().findViewById(R.id.prog6);
+    	
+    	cityHome.setText("Your location");
+    	progHome.setProgress(getPercentage(Integer.parseInt(particleData)));
+    	
     }
    
     
-    
+    private int getPercentage(int data){
+    	return (int) (100-(Math.min(Double.valueOf(data), 480.0)/5.0));
+    }
     
     
     private void getCitiesData(final Context ctx){
@@ -125,17 +133,31 @@ public class CompareDataFragment extends Fragment {
 								    }                
 							  };
 						    try {
-						    	HashMap<String, String> data = (HashMap<String, String>)parser.parse(response, containerFactory);
-								sortedData = new TreeMap<String, String>(data);
-								data.clear();
-								Log.v("data",sortedData.toString());
-								for(String city:sortedData.keySet()){
-									cities.add(city);
-								}
-								ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(ctx,
-										android.R.layout.simple_spinner_item, cities);
-								citiesSpinner.setAdapter(dataAdapter);
-								dataAdapter.notifyDataSetChanged();
+						    	//Although the data is not sorted
+						    	HashMap<String, HashMap<String, String>> sortedData = (HashMap<String, HashMap<String, String>>)parser.parse(response, containerFactory);
+								//sortedData = new TreeMap<String, HashMap<String, String>>(data);
+
+								city1.setText((CharSequence) sortedData.keySet().toArray()[0]);
+								city2.setText((CharSequence) sortedData.keySet().toArray()[1]);
+								city3.setText((CharSequence) sortedData.keySet().toArray()[2]);
+								city4.setText((CharSequence) sortedData.keySet().toArray()[3]);
+								city5.setText((CharSequence) sortedData.keySet().toArray()[4]);
+								city6.setText((CharSequence) sortedData.keySet().toArray()[5]);
+								
+								pCity1.setProgress(getPercentage(Integer.parseInt(sortedData.get(
+										sortedData.keySet().toArray()[0]).get("pm25").split(" ")[0])));
+								pCity2.setProgress(getPercentage(Integer.parseInt(sortedData.get(
+										sortedData.keySet().toArray()[1]).get("pm25").split(" ")[0])));
+								pCity3.setProgress(getPercentage(Integer.parseInt(sortedData.get(
+										sortedData.keySet().toArray()[2]).get("pm25").split(" ")[0])));
+								pCity4.setProgress(getPercentage(Integer.parseInt(sortedData.get(
+										sortedData.keySet().toArray()[3]).get("pm25").split(" ")[0])));
+								pCity5.setProgress(getPercentage(Integer.parseInt(sortedData.get(
+										sortedData.keySet().toArray()[4]).get("pm25").split(" ")[0])));
+								pCity6.setProgress(getPercentage(Integer.parseInt(sortedData.get(
+										sortedData.keySet().toArray()[5]).get("pm25").split(" ")[0])));
+								
+								
 								
 							} catch (ParseException e) {
 								// TODO Auto-generated catch block
@@ -181,44 +203,9 @@ public class CompareDataFragment extends Fragment {
 							    }                
 						  };
 					    try {
-					    	pollutionData = (HashMap<String, String>)parser.parse(response, containerFactory);
-							otherParticleData  = pollutionData.get(DatabaseReader.AirData.COLUMN_NAME_PM25).split(" ")[0];
-							otherGaseousData  = pollutionData.get(DatabaseReader.AirData.COLUMN_NAME_O3).split(" ")[0];
-							otherOverallData = String.valueOf((int) (100-(Math.min(Double.valueOf(otherParticleData), 480.0)/5.0)));
-							int co=0;
-							int no2=0;
-							try{
-								co  = Integer.parseInt(pollutionData.get(DatabaseReader.AirData.COLUMN_NAME_CO).split(" ")[0]);	
-							}catch(Exception e){
-								Log.v("ValueError", e.toString());
-								
-							}
-							try{	
-								no2  = Integer.parseInt(pollutionData.get(DatabaseReader.AirData.COLUMN_NAME_NO2).split(" ")[0]);
-						    }catch(Exception e){
-								Log.v("ValueError", e.toString());
-								
-							}
-							if(co!=0 && no2!=0){
-								otherChemicalData = String.valueOf((co+no2)/2);
-							}else if(co==0 || no2==0){
-								if(co!=0)otherChemicalData = String.valueOf(co);
-								if(no2!=0)otherChemicalData = String.valueOf(no2);
-							}
-							String city_name = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[3];
-							String[] finalData = new String[]{
-									city_name, otherCityName,
-									overallData+" %",otherOverallData+" %",
-						    		particleData,otherParticleData,
-									chemicalData,otherChemicalData,
-									gaseousData,otherGaseousData
-						    };
-							CustomArrayAdapter<String> adapter = new CustomArrayAdapter<String>(ctx, R.layout.custom_text_view, finalData);
-						    
-						    comparisionGrid.setAdapter(adapter);
-						    comparisionGrid.setClickable(false);
-						    comparisionGrid.setSmoothScrollbarEnabled(true);
-							compContainer.setVisibility(View.VISIBLE);
+					    	pollutionData = (HashMap<String, HashMap<String, String>>)parser.parse(response, containerFactory);
+					    	
+							
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							Log.v("JSON PARSE ERROR", e.toString()+response);
@@ -238,61 +225,5 @@ public class CompareDataFragment extends Fragment {
     	}
     }
     
-}
-
-
-class CustomArrayAdapter<String> extends ArrayAdapter {
-
-    private Context mContext;
-    private int id;
-    private String[] items ;
-    private Typeface tf;
-
-    public CustomArrayAdapter(Context context, int textViewResourceId , String[] list ) 
-    {
-        super(context, textViewResourceId, list);           
-        mContext = context;
-        tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/roboto-regular.ttf");
-        id = textViewResourceId;
-        items = list ;
-    }
-
-    @Override
-    public View getView(int position, View v, ViewGroup parent)
-    {
-        View mView = v ;
-        if(mView == null){
-            LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            mView = vi.inflate(id, null);
-        }
-
-        TextView text = (TextView) mView.findViewById(R.id.custom_text_view);
-
-        
-        if(items[position] != null )
-        {
-        	if(position<=1){
-        		text.setTextColor(Color.WHITE);
-        		text.setBackgroundColor(Color.BLACK);
-        	}else if(position>1 && position<=3){
-        		text.setTextColor(Color.BLACK);
-        		text.setBackgroundColor(mContext.getResources().getColor(R.color.silver));
-        	}else if(position>3 && position<=5){
-        		text.setTextColor(Color.WHITE);
-        		text.setBackgroundColor(mContext.getResources().getColor(R.color.good));
-        	}else if(position>5 && position<=7){
-        		text.setTextColor(Color.WHITE);
-        		text.setBackgroundColor(mContext.getResources().getColor(R.color.pink));
-        	}else if(position>7 && position<=9){
-        		text.setTextColor(Color.WHITE);
-        		text.setBackgroundColor(mContext.getResources().getColor(R.color.peterblue));
-        	}
-        	text.setTypeface(tf);
-            text.setText((CharSequence) items[position]);     
-        }
-        
-
-        return mView;
-    }
 
 }

@@ -4,60 +4,139 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/fb_light_blue"
-    android:padding="10dp" >
+    android:background="@drawable/bg_green_blurred" >
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_marginBottom="20dp"
-        android:background="@color/white" >
-
-        <TextView
-            android:id="@+id/lblSelectCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select a city"
-            android:textSize="@dimen/okText"
-            android:textColor="@color/fb_dark_blue"
-            android:layout_marginBottom="10dp" />
-		<Spinner
-	        android:id="@+id/citiesSpinner"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" />
-
-
-    </LinearLayout>
-  
-    <LinearLayout
-        android:id="@+id/comparisonDataConatainer"
-        android:visibility="invisible"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:padding="10dp"
-      android:layout_marginBottom="20dp"
-      android:background="@color/white" >
-
-	<TextView
-            android:id="@+id/lblDataComparion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Comparion data"
-            android:textSize="@dimen/okText"
-            android:textColor="@color/fb_dark_blue"
-            android:layout_marginBottom="10dp" />
-
-	<GridView
-	    android:id="@+id/comparisionGrid"
+	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
-	    android:numColumns="2" >
-	    
-	</GridView>
+	    android:alpha="0.7"
+	    android:background="@color/black"
+	    android:orientation="vertical"
+	    android:padding="10dp" >
 
-  </LinearLayout>
+	    <ScrollView
+	        android:orientation="vertical"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:paddingTop="180dp"
+	        android:background="@drawable/comparision_background">
+
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:orientation="vertical" >
+
+	            <TextView
+	                android:id="@+id/city_home"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textColor="@color/white"
+	                android:textSize="@dimen/smallText"
+	                android:text="TextView" />
+
+	            <ProgressBar
+	                android:id="@+id/prog_home"
+	                style="?android:attr/progressBarStyleHorizontal"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:progress="70"
+	                android:layout_marginBottom="15dp"
+	                 />
+
+	            <TextView
+	                android:id="@+id/city1"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textColor="@color/white"
+	                android:textSize="@dimen/smallText"
+	                android:text="TextView" />
+
+	            <ProgressBar
+	                android:id="@+id/prog1"
+	                style="?android:attr/progressBarStyleHorizontal"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginBottom="15dp"
+	                 />
+
+	            <TextView
+	                android:id="@+id/city2"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textColor="@color/white"
+	                android:textSize="@dimen/smallText"
+	                android:text="TextView" />
+
+	            <ProgressBar
+	                android:id="@+id/prog2"
+	                style="?android:attr/progressBarStyleHorizontal"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginBottom="15dp" />
+
+	            <TextView
+	                android:id="@+id/city3"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textColor="@color/white"
+	                android:textSize="@dimen/smallText"
+	                android:text="TextView" />
+
+	            <ProgressBar
+	                android:id="@+id/prog3"
+	                style="?android:attr/progressBarStyleHorizontal"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginBottom="15dp" />
+
+	            <TextView
+	                android:id="@+id/city4"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textColor="@color/white"
+	                android:textSize="@dimen/smallText"
+	                android:text="TextView" />
+
+	            <ProgressBar
+	                android:id="@+id/prog4"
+	                style="?android:attr/progressBarStyleHorizontal"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginBottom="15dp" />
+
+	            <TextView
+	                android:id="@+id/city5"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textColor="@color/white"
+	                android:textSize="@dimen/smallText"
+	                android:text="TextView" />
+
+	            <ProgressBar
+	                android:id="@+id/prog5"
+	                style="?android:attr/progressBarStyleHorizontal"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginBottom="15dp" />
+
+	            <TextView
+	                android:id="@+id/city6"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textColor="@color/white"
+	                android:textSize="@dimen/smallText"
+	                android:text="TextView" />
+
+	            <ProgressBar
+	                android:id="@+id/prog6"
+	                style="?android:attr/progressBarStyleHorizontal"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content" />
+
+	        </LinearLayout>
+	        
+	    </ScrollView>
+	    
+	</LinearLayout>
+
 </LinearLayout>
