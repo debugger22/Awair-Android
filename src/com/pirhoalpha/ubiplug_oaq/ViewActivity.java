@@ -2,6 +2,7 @@ package com.pirhoalpha.ubiplug_oaq;
 
 
 import com.newrelic.agent.android.NewRelic;
+
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -43,62 +44,47 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
-import android.provider.Settings;
 import android.provider.Settings.Secure;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * This Activity is the main activity which opens after the ScreenSaver
+ * (Not in the case of first use).
+ * @author mrsud
+ *
+ */
 public class ViewActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener{
 	private DatabaseReaderHelper mDbHelper;
 	private HashMap<String,String> data;
@@ -128,7 +114,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	//some random variables
     private static final int FRAME_TIME_MS = 1;
     private static final String KEY = "i";
-	private static final String MY_AD_UNIT_ID = "a152dd01083ade1";	//Awair ad unit id
     boolean isRunning = false;
     private String deviceId;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;

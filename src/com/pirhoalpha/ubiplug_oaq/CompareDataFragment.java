@@ -180,6 +180,7 @@ public class CompareDataFragment extends Fragment {
 						    	
 						    	HashMap<String, HashMap<String, String>> data = (HashMap<String, HashMap<String, String>>)parser.parse(response, containerFactory);
 						    	
+						    	// Setting the names of the cities
 								city1.setText((CharSequence) data.keySet().toArray()[0]);
 								city2.setText((CharSequence) data.keySet().toArray()[1]);
 								city3.setText((CharSequence) data.keySet().toArray()[2]);
@@ -187,6 +188,7 @@ public class CompareDataFragment extends Fragment {
 								city5.setText((CharSequence) data.keySet().toArray()[4]);
 								city6.setText((CharSequence) data.keySet().toArray()[5]);
 								
+								// Setting the values of progress bars
 								pCity1.setProgress(getPercentage(Integer.parseInt(data.get(
 										data.keySet().toArray()[0]).get("pm25").split(" ")[0])));
 								pCity2.setProgress(getPercentage(Integer.parseInt(data.get(
@@ -200,6 +202,7 @@ public class CompareDataFragment extends Fragment {
 								pCity6.setProgress(getPercentage(Integer.parseInt(data.get(
 										data.keySet().toArray()[5]).get("pm25").split(" ")[0])));
 								
+								// Setting the background drawable of the progress bars
 						    	pCity1.setProgressDrawable(getActivity().getResources().getDrawable(
 						    			getAppropriateProgressBar(getPercentage(Integer.parseInt(data.get(
 												data.keySet().toArray()[0]).get("pm25").split(" ")[0])))));
@@ -238,7 +241,6 @@ public class CompareDataFragment extends Fragment {
 	       	}
 	    	catch(Exception e){
 	    		Log.v("INTERNET", "Unable to connect"+e.toString());
-	    		//getActionBar().setSubtitle("");
 	    	}
 		}
     
