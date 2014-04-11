@@ -1,7 +1,7 @@
 package com.pirhoalpha.ubiplug_oaq;
 
 
-
+import com.newrelic.agent.android.NewRelic;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -189,9 +189,14 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		setContentView(R.layout.activity_view);
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		if(android.os.Build.VERSION.SDK_INT>=15){
-			getActionBar().setIcon(R.drawable.home);
+			//getActionBar().setIcon(R.drawable.home);
 			getActionBar().setTitle(R.string.app_name);
+			//getActionBar().setTitle("");
 		}
+		//Starting NewRelic tracker
+		NewRelic.withApplicationToken(
+				"AAa39164f4a89c94b2f6aa4de524840aac1ec6c32d"
+				).start(this.getApplication());
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -397,14 +402,15 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_view_activity, menu);
-		mnuShowCity = (MenuItem)menu.findItem(R.id.mnuShowCity);
-		mnuShowCity.setTitle(city_name);
+		//mnuShowCity = (MenuItem)menu.findItem(R.id.mnuShowCity);
+		//mnuShowCity.setTitle(city_name);
 		return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	        case R.id.mnuShowCity:
+	      /*
+	    	case R.id.mnuShowCity:
 	        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	        	builder.setMessage(data.get("address"))
 	        			.setTitle("Your location")
@@ -418,6 +424,15 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	        	AlertDialog alert = builder.create();
 	        	alert.show();
 	        	break;
+	        */
+	    	case R.id.mnuCompare:
+	    		Intent i = new Intent(ViewActivity.this,KnowMore.class);
+	        	i.putExtra("pollutants_data", new String[]{String.valueOf(pm25),
+	        			chemicalValue,String.valueOf(o3),city_name});
+	        	i.putExtra("fromdonut", true);
+	        	startActivity(i);
+	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+	     		break;
 	        case R.id.mnuKnowMore:
 	        	Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
 	        	i1.putExtra("pollutants_data", new String[]{String.valueOf(pm25),
@@ -473,6 +488,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 
 	@SuppressLint("NewApi")
 	private void updateUi(){
+		lblAirQuality.setText("Air Quality | "+ city_name);
 		
 		final int temp = (int) (100-(Math.min(Double.valueOf(pm25), 480.0)/5.0));
 		percentQuality = String.valueOf((int) (100-(Math.min(Double.valueOf(pm25), 480.0)/5.0)));
@@ -742,7 +758,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	@Override
 	public void onConnectionFailed(ConnectionResult arg0) {
 		Toast.makeText(this, "Google play services not available", Toast.LENGTH_SHORT).show();
-		reportError("Google play services not available. "+arg0.toString());
+		reportError("Google play services not available. OrgError: "+arg0.toString());
 	}
 
 	@Override
@@ -807,16 +823,17 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 													    }                
 												  };
 											    	try{
+											    		lblAirQuality.setTextColor(Color.WHITE);
 											    		data = (HashMap<String, String>)parser.parse(response, containerFactory);
 											    		mDbHelper = new DatabaseReaderHelper(getBaseContext());
 											    		mDbHelper.flushData();
 											    		
 											    		int newRowId = mDbHelper.addData(data);
 											    		if(newRowId!=-1){
-											    			if(android.os.Build.VERSION.SDK_INT>=15)mnuShowCity.setTitle(data.get("city_name"));
-											    			if(android.os.Build.VERSION.SDK_INT>=15)mnuShowCity.setEnabled(true);
+
 											    			if(!(Integer.parseInt(data.get("pm25").split(" ")[0])==pm25)){
 											    				pm25 = Integer.parseInt(data.get("pm25").split(" ")[0]);
+											    				
 											    				try{
 											    					o3 = Integer.parseInt(data.get("o3").split(" ")[0]);
 											    				}catch(Exception e){
@@ -837,19 +854,21 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 											    				}catch(Exception e){
 											    					Log.v("ValueError", e.toString());
 											    				}
+											    				
 											    				updateUi();
+											    				Log.v("data", "data came");
 											    			}
 											    			
 											    		}else{
-											    			Toast.makeText(ViewActivity.this, "Data not added", Toast.LENGTH_SHORT).show();
-											    			
+											    			Log.v("data", "Data not added");
 											    		}
 											    		mDbHelper.close();
 											    				
 											    		
 											    	}catch(Exception pe){
 											    		Log.v("PARSE_ERROR",pe.toString());
-											    		reportError(pe.toString()+response);
+											    		reportError("Error: "+pe.toString()+
+									        	    			" Message: "+pe.getMessage()+" Response was: "+response);
 											    	}
 						        	    	
 						        	    }
@@ -857,7 +876,8 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 						    	    	@Override
 						        	    public void onFailure(Throwable error, String response){
 						        	    	Log.v("INTERNET_ERROR1", "Could not connect to internet "+response);
-						        	    	reportError(error.toString()+response);
+						        	    	reportError("Error: "+error.toString()+
+						        	    			" Message: "+error.getMessage()+" Response was: "+response);
 						        	    	
 						        	    }
 						        	    
@@ -865,7 +885,8 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 						       	}
 						    	catch(Exception e){
 						    		Log.v("INTERNET", "Unable to connect"+e.toString());
-						    		reportError(e.toString());
+						    		reportError("Error: "+e.toString()+
+				        	    			" Message: "+e.getMessage());
 						    	}
 							}
 							
@@ -875,7 +896,8 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 					} catch (Exception e) {
 						Log.v("error",e.toString());
 						Toast.makeText(ViewActivity.this, "Current location not available", Toast.LENGTH_SHORT).show();
-						reportError(e.toString());
+						reportError("Error: "+e.toString()+
+	        	    			" Message: "+e.getMessage());
 					}
 					
 				}

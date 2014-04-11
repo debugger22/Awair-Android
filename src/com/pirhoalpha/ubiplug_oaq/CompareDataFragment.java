@@ -2,6 +2,7 @@ package com.pirhoalpha.ubiplug_oaq;
 
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -38,10 +39,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+/**
+ * This fragment class is for the cpmpare fragment on the KnowMore activity.
+ * It uses compare_fragment xml file.
+ * @author mrsud
+ *
+ */
 public class CompareDataFragment extends Fragment {
     
-	//private Map<String, HashMap<String, String>> sortedData;
-	//private ArrayList<String> cities;
 	private ProgressDialog dialog;
 	private String particleData;
 	private String chemicalData;
@@ -64,8 +69,8 @@ public class CompareDataFragment extends Fragment {
 	private ProgressBar pCity5;
 	private ProgressBar pCity6;
 
-	private HashMap<String, HashMap<String,String>> pollutionData; 
-	
+	private HashMap<String, HashMap<String,String>> pollutionData;
+
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,17 +83,21 @@ public class CompareDataFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
     	super.onActivityCreated(savedInstanceState);
-    	//cities = new ArrayList<String>();
+    	// Setting up process dialog
     	dialog = new ProgressDialog(getActivity());
     	dialog.setMessage("Please wait");
     	dialog.setCancelable(true);
     	dialog.show();
-    	getCitiesData(getActivity());
+    	
+    	getCitiesData(getActivity()); //Loading the data from the server
+    	
+    	// Getting pollution data from intent
     	particleData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[0];
     	chemicalData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[1];
     	gaseousData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[2];
     	overallData = String.valueOf((int) (100-(Math.min(Double.valueOf(particleData), 480.0)/5.0)));
     	
+    	// Getting views from xml
     	cityHome = (TextView)getActivity().findViewById(R.id.city_home);
     	city1 = (TextView)getActivity().findViewById(R.id.city1);
     	city2 = (TextView)getActivity().findViewById(R.id.city2);
@@ -103,14 +112,8 @@ public class CompareDataFragment extends Fragment {
     	pCity4 = (ProgressBar)getActivity().findViewById(R.id.prog4);
     	pCity5 = (ProgressBar)getActivity().findViewById(R.id.prog5);
     	pCity6 = (ProgressBar)getActivity().findViewById(R.id.prog6);    
-    	progHome.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
-    	pCity1.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
-    	pCity2.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
-    	pCity3.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
-    	pCity4.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
-    	pCity5.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
-    	pCity6.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.custom_progressbar));
     	
+    	// Resetting text of textviews
     	cityHome.setText("Your location");
     	city1.setText("");
     	city2.setText("");
@@ -118,16 +121,38 @@ public class CompareDataFragment extends Fragment {
     	city4.setText("");
     	city5.setText("");
     	city6.setText("");
-    	progHome.setProgress(getPercentage(Integer.parseInt(particleData)));
     	
+    	// Setting value of home location progressbar
+    	progHome.setProgressDrawable(getActivity().getResources().getDrawable(
+    			getAppropriateProgressBar(getPercentage(Integer.parseInt(particleData)))));
+    	progHome.setProgress(getPercentage(Integer.parseInt(particleData)));
     }
-   
-    
+
+    /**
+     * This method takes pm25 data and returns its percentage
+     * @param data
+     * @return
+     */
     private int getPercentage(int data){
     	return (int) (100-(Math.min(Double.valueOf(data), 480.0)/5.0));
     }
+   
+    /**
+     * This method takes percentage value and returns appropriate colored
+     * progressbar layout
+     * @param value
+     * @return progressbar drawable
+     */
+    private int getAppropriateProgressBar(int value){
+    	if(value<50)return R.drawable.custom_progressbar_red;
+    	else if(value>=50 && value<80)return R.drawable.custom_progressbar_yellow;
+    	else return R.drawable.custom_progressbar_green;
+    }
     
-    
+    /**
+     * This method loads the data from the server
+     * @param ctx
+     */
     private void getCitiesData(final Context ctx){
 	    	final String url = new String("http://www.ubiplug.com:8080/ubiair/comparecities/");
 			final int DEFAULT_TIMEOUT = 100 * 1000;
@@ -141,40 +166,58 @@ public class CompareDataFragment extends Fragment {
 				{
 				    @SuppressWarnings("unchecked")
 					@Override
-						    public void onSuccess(String response) {
-						    	JSONParser parser=new JSONParser();
-						    	ContainerFactory containerFactory = new ContainerFactory(){
-								    public List creatArrayContainer() {
-								      return new LinkedList();
-								    }
-								    public Map createObjectContainer() {
-								      return new LinkedHashMap();
-								    }                
-							  };
+						public void onSuccess(String response) {
+				    		JSONParser parser=new JSONParser();
+					    	ContainerFactory containerFactory = new ContainerFactory(){
+					    		public List creatArrayContainer() {
+					    			return new LinkedList();
+							    }
+							    public Map createObjectContainer() {
+							    	return new LinkedHashMap();
+							    }                
+					    	};
 						    try {
-						    	//Although the data is not sorted
-						    	HashMap<String, HashMap<String, String>> sortedData = (HashMap<String, HashMap<String, String>>)parser.parse(response, containerFactory);
-								//sortedData = new TreeMap<String, HashMap<String, String>>(data);
-
-								city1.setText((CharSequence) sortedData.keySet().toArray()[0]);
-								city2.setText((CharSequence) sortedData.keySet().toArray()[1]);
-								city3.setText((CharSequence) sortedData.keySet().toArray()[2]);
-								city4.setText((CharSequence) sortedData.keySet().toArray()[3]);
-								city5.setText((CharSequence) sortedData.keySet().toArray()[4]);
-								city6.setText((CharSequence) sortedData.keySet().toArray()[5]);
+						    	
+						    	HashMap<String, HashMap<String, String>> data = (HashMap<String, HashMap<String, String>>)parser.parse(response, containerFactory);
+						    	
+								city1.setText((CharSequence) data.keySet().toArray()[0]);
+								city2.setText((CharSequence) data.keySet().toArray()[1]);
+								city3.setText((CharSequence) data.keySet().toArray()[2]);
+								city4.setText((CharSequence) data.keySet().toArray()[3]);
+								city5.setText((CharSequence) data.keySet().toArray()[4]);
+								city6.setText((CharSequence) data.keySet().toArray()[5]);
 								
-								pCity1.setProgress(getPercentage(Integer.parseInt(sortedData.get(
-										sortedData.keySet().toArray()[0]).get("pm25").split(" ")[0])));
-								pCity2.setProgress(getPercentage(Integer.parseInt(sortedData.get(
-										sortedData.keySet().toArray()[1]).get("pm25").split(" ")[0])));
-								pCity3.setProgress(getPercentage(Integer.parseInt(sortedData.get(
-										sortedData.keySet().toArray()[2]).get("pm25").split(" ")[0])));
-								pCity4.setProgress(getPercentage(Integer.parseInt(sortedData.get(
-										sortedData.keySet().toArray()[3]).get("pm25").split(" ")[0])));
-								pCity5.setProgress(getPercentage(Integer.parseInt(sortedData.get(
-										sortedData.keySet().toArray()[4]).get("pm25").split(" ")[0])));
-								pCity6.setProgress(getPercentage(Integer.parseInt(sortedData.get(
-										sortedData.keySet().toArray()[5]).get("pm25").split(" ")[0])));
+								pCity1.setProgress(getPercentage(Integer.parseInt(data.get(
+										data.keySet().toArray()[0]).get("pm25").split(" ")[0])));
+								pCity2.setProgress(getPercentage(Integer.parseInt(data.get(
+										data.keySet().toArray()[1]).get("pm25").split(" ")[0])));
+								pCity3.setProgress(getPercentage(Integer.parseInt(data.get(
+										data.keySet().toArray()[2]).get("pm25").split(" ")[0])));
+								pCity4.setProgress(getPercentage(Integer.parseInt(data.get(
+										data.keySet().toArray()[3]).get("pm25").split(" ")[0])));
+								pCity5.setProgress(getPercentage(Integer.parseInt(data.get(
+										data.keySet().toArray()[4]).get("pm25").split(" ")[0])));
+								pCity6.setProgress(getPercentage(Integer.parseInt(data.get(
+										data.keySet().toArray()[5]).get("pm25").split(" ")[0])));
+								
+						    	pCity1.setProgressDrawable(getActivity().getResources().getDrawable(
+						    			getAppropriateProgressBar(getPercentage(Integer.parseInt(data.get(
+												data.keySet().toArray()[0]).get("pm25").split(" ")[0])))));
+						    	pCity2.setProgressDrawable(getActivity().getResources().getDrawable(
+						    			getAppropriateProgressBar(getPercentage(Integer.parseInt(data.get(
+												data.keySet().toArray()[1]).get("pm25").split(" ")[0])))));
+						    	pCity3.setProgressDrawable(getActivity().getResources().getDrawable(
+						    			getAppropriateProgressBar(getPercentage(Integer.parseInt(data.get(
+												data.keySet().toArray()[2]).get("pm25").split(" ")[0])))));
+						    	pCity4.setProgressDrawable(getActivity().getResources().getDrawable(
+						    			getAppropriateProgressBar(getPercentage(Integer.parseInt(data.get(
+												data.keySet().toArray()[3]).get("pm25").split(" ")[0])))));
+						    	pCity5.setProgressDrawable(getActivity().getResources().getDrawable(
+						    			getAppropriateProgressBar(getPercentage(Integer.parseInt(data.get(
+												data.keySet().toArray()[4]).get("pm25").split(" ")[0])))));
+						    	pCity6.setProgressDrawable(getActivity().getResources().getDrawable(
+						    			getAppropriateProgressBar(getPercentage(Integer.parseInt(data.get(
+												data.keySet().toArray()[5]).get("pm25").split(" ")[0])))));
 								dialog.dismiss();
 								
 								
@@ -199,7 +242,8 @@ public class CompareDataFragment extends Fragment {
 	    	}
 		}
     
-    
+    // Not being used
+    /*
     private void getData(final Context ctx,Double lat, Double lng){
     	final String url = DatabaseReader.AirData.BASE_URL;
 		final int DEFAULT_TIMEOUT = 100 * 1000;
@@ -211,40 +255,34 @@ public class CompareDataFragment extends Fragment {
 	    	params.put("lng", String.valueOf(lng));
 	    	client.post(ctx,url,params,new AsyncHttpResponseHandler() 
 			{
-			    @SuppressWarnings("unchecked")
+	    		@SuppressWarnings("unchecked")
 				@Override
-					    public void onSuccess(String response) {
-					    	JSONParser parser=new JSONParser();
-					    	ContainerFactory containerFactory = new ContainerFactory(){
-							    public List creatArrayContainer() {
-							      return new LinkedList();
-							    }
-							    public Map createObjectContainer() {
-							      return new LinkedHashMap();
-							    }                
-						  };
-					    try {
-					    	pollutionData = (HashMap<String, HashMap<String, String>>)parser.parse(response, containerFactory);
-					    	
-							
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							Log.v("JSON PARSE ERROR", e.toString()+response);
-						}        	    	
-        	    }
-        	    
+				public void onSuccess(String response) {
+			    	JSONParser parser=new JSONParser();
+			    	ContainerFactory containerFactory = new ContainerFactory(){
+					    public List creatArrayContainer() {
+					      return new LinkedList();
+					    }
+					    public Map createObjectContainer() {
+					      return new LinkedHashMap();
+					    }                
+			    	};
+				    try {
+				    	pollutionData = (HashMap<String, HashMap<String, String>>)parser.parse(response, containerFactory);
+					} catch (ParseException e) {
+						Log.v("JSON PARSE ERROR", e.toString()+response);
+					}        	    	
+	    		}
+
     	    	@Override
         	    public void onFailure(Throwable error, String response){
         	    	Log.v("INTERNET_ERROR1", "Something went wrong "+response);
         	    }
-        	    
            	});
        	}
     	catch(Exception e){
     		Log.v("INTERNET", "Unable to connect"+e.toString());
-    		//getActionBar().setSubtitle("");
     	}
     }
-    
-
+    */
 }

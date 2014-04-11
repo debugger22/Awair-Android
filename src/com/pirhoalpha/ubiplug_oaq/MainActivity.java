@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						dialog.setMessage("Preparing for the first use. If you are indoor, try moving to a window.");	
+						dialog.setMessage("Preparing for the first use. If you are indoors, try moving to a window.");	
 					}
 				});
 			}

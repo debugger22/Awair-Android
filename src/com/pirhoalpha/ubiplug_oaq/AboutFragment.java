@@ -8,6 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ * This fragment class is for the about fragment on the KnowMore activity.
+ * It uses about_fragment xml file.
+ * @author mrsud
+ *
+ */
 public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -16,7 +22,11 @@ public class AboutFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.about_fragment, container, false);
         return rootView;
     }
-    
+
+    /**
+     * This method is automatically called when activity creation completes.
+     * 
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
     	super.onActivityCreated(savedInstanceState);
@@ -28,9 +38,5 @@ public class AboutFragment extends Fragment {
         appname.setTypeface(tf);
         version.setTypeface(tf);
         company.setTypeface(tf);
-        
-    	
     }
-    
-    
 }

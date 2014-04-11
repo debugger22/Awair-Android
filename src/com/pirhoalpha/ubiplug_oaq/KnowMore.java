@@ -6,6 +6,8 @@ import com.facebook.model.*;
 import java.util.ArrayList;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.newrelic.agent.android.NewRelic;
+
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -49,10 +51,16 @@ public class KnowMore extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_know_more);
+		
+		//Starting NewRelic tracker
+		NewRelic.withApplicationToken(
+				"AAa39164f4a89c94b2f6aa4de524840aac1ec6c32d"
+				).start(this.getApplication());
+
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getActionBar().setIcon(getApplicationContext().getResources().getDrawable(R.drawable.detail));
+        getActionBar().setIcon(getApplicationContext().getResources().getDrawable(R.drawable.ic_action_collections_view_as_list));
         
         mTitle = mDrawerTitle = getTitle();
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);

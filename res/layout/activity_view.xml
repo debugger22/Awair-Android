@@ -58,14 +58,20 @@
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp" >
 
+	            <RelativeLayout android:layout_width="match_parent"
+			        android:layout_height="wrap_content" 
+			        android:orientation="horizontal">
 	            <TextView
 	                android:id="@+id/lblAirQuality"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="Air Quality"
-	                android:textColor="@color/white"
+	                android:paddingTop="15dp"
+	                android:textColor="@color/gray"
 	                android:textSize="@dimen/okText" />
-
+	                
+	            </RelativeLayout>
+	            
 	            <View
 	                android:layout_width="fill_parent"
 	                android:layout_height="1dp"
