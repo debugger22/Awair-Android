@@ -101,6 +101,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	private LocationRequest locationrequest;
 	private ProgressWheel aq_spinner;
 	private ProgressWheel greenery_spinner;
+	private ProgressWheel uv_spinner;
 	private ScrollView container;
 	
 	
@@ -108,8 +109,10 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
     private static final int FRAME_TIME_MS = 1;
     private static final String KEY_AQ = "aq";
     private static final String KEY_GREENERY = "greenery";
+    private static final String KEY_UV = "uv";
     boolean isRunningAq = false;
     boolean isRunningGreenery = false;
+    boolean isRunningUv = false;
     private String deviceId;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final String EXTRA_MESSAGE = "message";
@@ -129,12 +132,16 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	public static String address;
 	public int aq;
 	public int greenery;
+	public int uv;
 	
 	//View variables
+	private TextView lbl_aq;
+	private TextView lbl_greenery;
+	private TextView lbl_uv;
 	private TextView lbl_aq_value;
 	private TextView lbl_greenery_value;
+	private TextView lbl_uv_value;
 
-	
 	
 	@SuppressLint("HandlerLeak")
 	Handler aq_wheel_handler = new Handler() {
@@ -148,29 +155,41 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
             }
         }
     };
-    
+
+
 	@SuppressLint("HandlerLeak")
 	Handler greenery_wheel_handler = new Handler() {
         public void handleMessage(Message msg) {
             try {
                 int i= msg.getData().getInt(KEY_GREENERY);
-                aq_spinner.setProgress((int)(i*3.6));
+                greenery_spinner.setProgress((int)(i*3.6));
                 lbl_greenery_value.setText(""+i+"%");
             } catch (Exception err) {
             	Log.v("Thread Error",err.toString());
             }
         }
     };
+
     
+	@SuppressLint("HandlerLeak")
+	Handler uv_wheel_handler = new Handler() {
+        public void handleMessage(Message msg) {
+            try {
+                int i= msg.getData().getInt(KEY_UV);
+                uv_spinner.setProgress((int)(i*3.6));
+                lbl_uv_value.setText(""+i+"%");
+            } catch (Exception err) {
+            	Log.v("Thread Error",err.toString());
+            }
+        }
+    };
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view);
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		if(android.os.Build.VERSION.SDK_INT>=15){
-			getActionBar().setTitle(R.string.app_name);
-		}
 		
 		//Starting NewRelic tracker
 		NewRelic.withApplicationToken(
@@ -221,16 +240,20 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		container = (ScrollView)findViewById(R.id.container_activity_view);
 		lbl_aq_value = (TextView)findViewById(R.id.lbl_air_quality_value);
 		lbl_greenery_value = (TextView)findViewById(R.id.lbl_greenery_value);
+		lbl_uv_value = (TextView)findViewById(R.id.lbl_uv_value);
 		aq_spinner = (ProgressWheel) findViewById(R.id.aq_spinner);
 		greenery_spinner = (ProgressWheel) findViewById(R.id.greenery_spinner);
+		uv_spinner = (ProgressWheel) findViewById(R.id.uv_spinner);
 		
 		
 		aq_spinner.setRimColor(Color.WHITE);
 		greenery_spinner.setRimColor(Color.WHITE);
+		uv_spinner.setRimColor(Color.WHITE);
 		
 		//Setting TypeFaces
 		lbl_aq_value.setTypeface(tfhl);
 		lbl_greenery_value.setTypeface(tfhl);
+		lbl_uv_value.setTypeface(tfhl);
 		
 		//Donuts OnClickListeners
 		aq_spinner.setOnClickListener(new OnClickListener(){
@@ -249,6 +272,21 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		});
 
 		greenery_spinner.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				/*
+				Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
+	        	i1.putExtra("pollutants_data", new String[]{String.valueOf(pm25),
+	        			chemicalValue,String.valueOf(o3),city_name});
+	        	i1.putExtra("fromdonut", true);
+	        	startActivity(i1);
+	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+				*/
+			}
+		});
+		
+		uv_spinner.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
@@ -283,8 +321,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		//Registering alarmmanager for notifications on 08:00 AM
 	 	Calendar calendar = Calendar.getInstance();
 	    calendar.set(Calendar.HOUR_OF_DAY, 8);
-	    calendar.set(Calendar.MINUTE, 00);
-	    calendar.set(Calendar.SECOND, 00);
 	    Intent intent = new Intent(this, ClientNotificationService.class);
 	    PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
 	    AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
@@ -357,7 +393,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	@SuppressLint("NewApi")
 	private void updateUi(){
 
-		
 		if (aq>80){
 			container.setBackground(getResources().getDrawable(R.drawable.bg_green_blurred));
 		}

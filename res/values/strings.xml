@@ -11,9 +11,7 @@
      
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item >Particle Pollutants</item>
-        <item >Chemical Pollutants</item>
-        <item >Gaseous Pollutants</item>
+        <item >Greenery Index</item>
         <item >Compare Air Quality</item>
         <item >About</item>
         <!--<item >Share Air Quality</item>-->
@@ -23,9 +21,7 @@
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
-        <item>@drawable/particle</item>
-        <item>@drawable/chemical</item>
-        <item>@drawable/gas</item>
+        <item>@drawable/greenery_white</item>
         <item>@drawable/ic_action_location_web_site</item>
         <item>@drawable/ic_action_about</item>
         <!--<item>@android:drawable/ic_menu_share</item>-->

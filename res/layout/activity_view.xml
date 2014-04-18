@@ -12,7 +12,7 @@
     android:background="@drawable/bg_green_blurred"
     android:soundEffectsEnabled="true"
     android:layout_alignParentTop="true"
-    android:fillViewport="true" >
+    android:fillViewport="true">
 
 		
 	    <RelativeLayout
@@ -37,26 +37,6 @@
 	            android:paddingLeft="10dp"
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp" >
-
-	            <RelativeLayout android:layout_width="match_parent"
-			        android:layout_height="wrap_content" 
-			        android:orientation="horizontal">
-	            <TextView
-	                android:id="@+id/lblAirQuality"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:text="Air Quality"
-	                android:paddingTop="15dp"
-	                android:textColor="@color/gray"
-	                android:textSize="@dimen/okText" />
-	                
-	            </RelativeLayout>
-	            
-	            <View
-	                android:layout_width="fill_parent"
-	                android:layout_height="1dp"
-	                android:layout_marginTop="3dp"
-	                android:background="@android:color/darker_gray" />
 				<LinearLayout 
 					android:layout_width="match_parent"
 	            	android:layout_height="wrap_content"
@@ -117,7 +97,7 @@
 	        <LinearLayout
 	            android:id="@+id/greenery_container"
 	            android:layout_width="match_parent"
-	            android:layout_height="fill_parent"
+	            android:layout_height="wrap_content"
 	            android:layout_alignParentLeft="true"
 	            android:layout_below="@+id/aq_container"
 	            android:alpha="0.6"
@@ -132,22 +112,7 @@
 	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
 	                android:orientation="horizontal" >
-
-	                <TextView
-	                    android:id="@+id/lbl_greenery"
-	                    android:layout_width="wrap_content"
-	                    android:layout_height="wrap_content"
-	                    android:paddingTop="15dp"
-	                    android:text="Greenery Index"
-	                    android:textColor="@color/gray"
-	                    android:textSize="@dimen/okText" />
 	            </RelativeLayout>
-
-	            <View
-	                android:layout_width="fill_parent"
-	                android:layout_height="1dp"
-	                android:layout_marginTop="3dp"
-	                android:background="@android:color/darker_gray" />
 
 	            <LinearLayout
 	                android:layout_width="match_parent"
@@ -205,6 +170,83 @@
 	            </LinearLayout>
 	        </LinearLayout>
 	
+	        <LinearLayout
+	            android:id="@+id/uv_container"
+	            android:layout_width="match_parent"
+	            android:layout_height="fill_parent"
+	            android:layout_alignParentLeft="true"
+	            android:layout_below="@+id/greenery_container"
+	            android:alpha="0.6"
+	            android:background="@color/black"
+	            android:orientation="vertical"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp"
+	            android:paddingTop="10dp"
+	            android:layout_marginBottom="10dp" >
+
+	            <RelativeLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:orientation="horizontal" >
+	            </RelativeLayout>
+
+	            <LinearLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:orientation="horizontal" >
+
+	                <FrameLayout
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content" >
+
+	                    <com.todddavies.components.progressbar.ProgressWheel
+	                        android:id="@+id/uv_spinner"
+	                        android:layout_width="@dimen/bigwheelradius"
+	                        android:layout_height="@dimen/bigwheelradius"
+	                        ProgressWheel:barColor="#009324"
+	                        ProgressWheel:barLength="60dp"
+	                        ProgressWheel:barWidth="@dimen/barWidth"
+	                        ProgressWheel:rimWidth="@dimen/rimWidth"
+	                        ProgressWheel:textColor="#222"
+	                        ProgressWheel:textSize="@dimen/normalText" />
+
+	                    <ImageView
+	                        android:id="@+id/imageView1"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center"
+	                        android:src="@drawable/uv_white" />
+	                </FrameLayout>
+
+		            <LinearLayout
+		                android:layout_width="fill_parent"
+		                android:layout_height="match_parent"
+		                android:orientation="vertical"
+		                android:gravity="center" >
+
+		                <TextView
+		                    android:id="@+id/lbl_uv"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:gravity="center"
+		                    android:textColor="@color/white"
+		                    android:textSize="@dimen/normalText"
+		                    android:text="Ultraviolet" />
+		                
+		                <TextView
+		                    android:id="@+id/lbl_uv_value"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:layout_marginTop="10dp"
+		                    android:gravity="center"
+		                    android:textColor="@color/white"
+		                    android:textSize="@dimen/normalText"
+		                    android:text="85%" />
+		            </LinearLayout>
+	            </LinearLayout>
+	        </LinearLayout>
+	        
 	    </RelativeLayout>
 	             
     </ScrollView>

@@ -13,6 +13,6 @@
     <dimen name="smallText">15dp</dimen>
     <dimen name="verySmallText">11dp</dimen>
     <dimen name="bigwheelradius">170dp</dimen>
-    <dimen name="barWidth">14dp</dimen>
+    <dimen name="barWidth">15dp</dimen>
     <dimen name="rimWidth">15dp</dimen>
 </resources>
