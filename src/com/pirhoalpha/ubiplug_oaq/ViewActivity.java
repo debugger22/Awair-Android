@@ -121,7 +121,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
     public String emailId;
     String SENDER_ID = "487700552253"; //Awair project Id
     AtomicInteger msgId = new AtomicInteger();
-    SharedPreferences prefs;
     Context context;
     GoogleCloudMessaging gcm;
     String regid;
@@ -364,16 +363,15 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	        	AlertDialog alert = builder.create();
 	        	alert.show();
 	        	break;
-	        
+	        	
 	    	case R.id.mnuCompare:
 	    		Intent i = new Intent(ViewActivity.this,KnowMore.class);
-	        	i.putExtra("fromdonut", true);
+	        	i.putExtra("showcompare", true);
 	        	startActivity(i);
 	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 	     		break;
 	        case R.id.mnuKnowMore:
 	        	Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
-	        	i1.putExtra("fromdonut", false);
 	        	startActivity(i1);
 	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 	    		break;
@@ -385,6 +383,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	        	sendIntent.setType("text/plain");
 	        	startActivity(Intent.createChooser(sendIntent, "Share Awair with your loved ones"));
 	        	break;
+	    	
 	    }
 		return true;
 	}
@@ -791,27 +790,40 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	    new Handler().postDelayed(r, 1);
 	}
 	
+	private void cache_compare_data(){
+		final String url = new String(Constants.COMPARE_CITIES_URL);
+		final int DEFAULT_TIMEOUT = 100 * 1000;
+    	try {
+        	AsyncHttpClient client = new AsyncHttpClient();
+        	client.setTimeout(DEFAULT_TIMEOUT);
+	    	RequestParams params = new RequestParams();
+	    	params.put("lat", String.valueOf(lat));
+	    	params.put("lng", String.valueOf(lng));
+			client.post(ViewActivity.this,url,params,new AsyncHttpResponseHandler() 
+			{
+			    @Override
+			    public void onSuccess(String response) {
+					    		
+		    		// Caching compare data in the shared preferences
+		    		SharedPreferences data_prefs = getSharedPreferences(Constants.DATA_CACHE_PREFS_NAME, 0);
+	    			SharedPreferences.Editor data_prefs_editor = data_prefs.edit();
+	    			data_prefs_editor.putString("compare_cities_data", response);
+	    			data_prefs_editor.putBoolean("compare_data_cached", true);
+	    			data_prefs_editor.commit();
+			    }
+
+    	    	@Override
+        	    public void onFailure(Throwable error, String response){
+        	    	Log.v("INTERNET_ERROR1", "Could not connect to internet "+response);
+        	    	reportError("Error: "+error.toString()+
+        	    			" Message: "+error.getMessage()+" Response was: "+response);
+        	    }
+           	});
+       	}
+    	catch(Exception e){
+    		Log.v("INTERNET", "Unable to connect"+e.toString());
+    		reportError("Error: "+e.toString()+
+	    			" Message: "+e.getMessage());
+    	}
+	}
 }
-
-
-class MyAnimationListener implements AnimationListener{
-
-	@Override
-	public void onAnimationEnd(Animation arg0) {
-		
-	}
-
-	@Override
-	public void onAnimationRepeat(Animation arg0) {
-
-		
-	}
-
-	@Override
-	public void onAnimationStart(Animation arg0) {
-		
-	}
-	
-}
-
-

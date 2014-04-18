@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class ParticleFragment extends Fragment {
+public class UVFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView =  inflater.inflate(R.layout.particle_fragment, container, false);
+        View rootView =  inflater.inflate(R.layout.uv_fragment, container, false);
         return rootView;
     }
     
@@ -21,7 +21,7 @@ public class ParticleFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
     	super.onActivityCreated(savedInstanceState);
     	Typeface tf = Typeface.createFromAsset(getActivity().getApplicationContext().getAssets(),"fonts/roboto-regular.ttf");
-        TextView pm25info = (TextView)getActivity().findViewById(R.id.lbl_particle_info);
+        TextView pm25info = (TextView)getActivity().findViewById(R.id.lbl_gaseous_info);
         pm25info.setTypeface(tf);
     	
     }

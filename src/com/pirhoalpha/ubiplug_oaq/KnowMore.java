@@ -76,6 +76,7 @@ public class KnowMore extends FragmentActivity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
         
         navMenuIcons.recycle();
         
@@ -107,7 +108,7 @@ public class KnowMore extends FragmentActivity {
  
         if (savedInstanceState == null) {
             // on first time display view for first nav item
-            if(getIntent().getBooleanExtra("fromdonut", false))displayView(3);
+            if(getIntent().getBooleanExtra("showcompare", false))displayView(3);
             else displayView(0);
         }
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
@@ -197,21 +198,24 @@ public class KnowMore extends FragmentActivity {
 		Fragment fragment = null;
 		switch (position) {
 		case 0:
-			fragment = new ParticleFragment();
+			fragment = new AirQualityFragment();
 			break;
 		case 1:
-			fragment = new ChemicalFragment();
+			fragment = new GreeneryFragment();
 			break;
 		case 2:
-			fragment = new GaseousFragment();
+			fragment = new UVFragment();
 			break;
 		case 3:
 			fragment = new CompareDataFragment();
 			break;
 		case 4:
+			fragment = new SettingsFragment();
+			break;
+		case 5:
 			fragment = new AboutFragment();
 			break;
-
+			
 		default:
 			break;
 		}

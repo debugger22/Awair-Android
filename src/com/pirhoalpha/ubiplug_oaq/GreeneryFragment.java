@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class ChemicalFragment extends Fragment {
+public class GreeneryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView =  inflater.inflate(R.layout.chemical_fragment, container, false);
+        View rootView =  inflater.inflate(R.layout.greenery_fragment, container, false);
         return rootView;
     }
     
