@@ -1,38 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-    	xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto" 
-    	android:layout_width="match_parent"
-    	android:layout_height="match_parent"
-    	android:background="@color/black"
-    	android:id="@+id/view_frame">
-		
-		<ImageView
-	        android:id="@+id/blurred_image"
-			android:layout_width="fill_parent"
-    	    android:layout_height="fill_parent"
-	        android:src="@drawable/bg_green_blurred"
-	        android:scaleType="fitXY"
-	        android:alpha="1"/>
-    	<ImageView
-    	    android:id="@+id/normal_image"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="fill_parent"
-    	    android:scaleType="fitXY"
-    	    android:alpha="1"
-    	    android:src="@drawable/bg_green" />
+    
 
 
-<ScrollView 
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+   	xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto" 
     android:id="@+id/container_activity_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentBottom="true"
     android:scrollbars="none"
+    android:background="@drawable/bg_green_blurred"
     android:soundEffectsEnabled="true"
     android:layout_alignParentTop="true"
-   
-    android:fillViewport="true" >
+    android:fillViewport="true">
 
 		
 	    <RelativeLayout
@@ -44,13 +24,83 @@
 	        android:orientation="vertical" >
 	        
 	        <LinearLayout
-	            android:id="@+id/pw_container"
+	            android:id="@+id/aq_container"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentTop="true"
 	            android:layout_centerHorizontal="true"
 	            android:layout_marginTop="10dp"
-	            android:alpha="0.5"
+	            android:alpha="0.6"
+	            android:background="@color/black"
+	            android:orientation="vertical"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp"
+	            android:paddingTop="10dp" >
+				<LinearLayout 
+					android:layout_width="match_parent"
+	            	android:layout_height="wrap_content"
+	            	android:orientation="horizontal">
+		            <FrameLayout
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content" >
+	
+		                <com.todddavies.components.progressbar.ProgressWheel
+		                    android:id="@+id/aq_spinner"
+		                    android:layout_width="@dimen/bigwheelradius"
+		                    android:layout_height="@dimen/bigwheelradius"
+		                    ProgressWheel:barColor="#009324"
+		                    ProgressWheel:barLength="60dp"
+		                    ProgressWheel:barWidth="@dimen/barWidth"
+		                    ProgressWheel:rimWidth="@dimen/rimWidth"
+		                    ProgressWheel:textColor="#222"
+		                    ProgressWheel:textSize="@dimen/normalText" />
+	
+		                <ImageView
+		                    android:id="@+id/imageView1"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:layout_gravity="center"
+		                    android:src="@drawable/air_quality_white" />
+	
+		            </FrameLayout>
+
+		            <LinearLayout
+		                android:layout_width="fill_parent"
+		                android:layout_height="match_parent"
+		                android:orientation="vertical"
+		                android:gravity="center" >
+
+		                <TextView
+		                    android:id="@+id/lbl_air_quality"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:gravity="center"
+		                    android:textColor="@color/white"
+		                    android:textSize="@dimen/normalText"
+		                    android:text="Air Quality" />
+		                
+		                <TextView
+		                    android:id="@+id/lbl_air_quality_value"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:layout_marginTop="10dp"
+		                    android:gravity="center"
+		                    android:textColor="@color/white"
+		                    android:textSize="@dimen/normalText"
+		                    android:text="87%" />
+		            </LinearLayout>
+
+				</LinearLayout>
+	        </LinearLayout>
+
+	        <LinearLayout
+	            android:id="@+id/greenery_container"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_below="@+id/aq_container"
+	            android:alpha="0.6"
 	            android:background="@color/black"
 	            android:orientation="vertical"
 	            android:paddingBottom="10dp"
@@ -58,218 +108,146 @@
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp" >
 
-	            <RelativeLayout android:layout_width="match_parent"
-			        android:layout_height="wrap_content" 
-			        android:orientation="horizontal">
-	            <TextView
-	                android:id="@+id/lblAirQuality"
-	                android:layout_width="wrap_content"
+	            <RelativeLayout
+	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
-	                android:text="Air Quality"
-	                android:paddingTop="15dp"
-	                android:textColor="@color/gray"
-	                android:textSize="@dimen/okText" />
-	                
+	                android:orientation="horizontal" >
 	            </RelativeLayout>
-	            
-	            <View
-	                android:layout_width="fill_parent"
-	                android:layout_height="1dp"
-	                android:layout_marginTop="3dp"
-	                android:background="@android:color/darker_gray" />
 
-	            <com.todddavies.components.progressbar.ProgressWheel
-	                android:id="@+id/pw_spinner"
-	                android:layout_width="@dimen/bigwheelradius"
-	                android:layout_height="@dimen/bigwheelradius"
-	                android:layout_alignParentTop="true"
-	                android:layout_centerHorizontal="true"
-	                android:layout_gravity="center"
-	                ProgressWheel:barColor="#009324"
-	                ProgressWheel:barLength="60dp"
-	                ProgressWheel:barWidth="@dimen/barWidth"
-	                ProgressWheel:rimWidth="@dimen/rimWidth"
-	                ProgressWheel:text="0%"
-	                ProgressWheel:textColor="#222"
-	                ProgressWheel:textSize="@dimen/normalText" />
+	            <LinearLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:orientation="horizontal" >
 
-	            <TextView
-	                android:id="@+id/lblSmallSuggest"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.42"
-	                android:textSize="@dimen/okText"
-	                android:textColor="@color/white"
-	                android:gravity="center"
-	                android:text="TextView" />
-	        </LinearLayout>
-	
-	        <LinearLayout
-	            android:id="@+id/particle_pollutants_container"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_alignLeft="@+id/pw_container"
-	            android:layout_below="@+id/pw_container"
-	            android:alpha="0.5"
-	            android:background="@color/black"
-	            android:orientation="vertical"
-	            android:padding="20dp" >
-	             
-	             <TextView
-	                android:id="@+id/particle_pollutants_heading"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentLeft="true"
-	                android:alpha="1"
-	                android:text="Particle Pollutants"
-	                android:textColor="@color/white"
-	                android:textSize="@dimen/okText" />
-	             <View
-				    android:layout_width="fill_parent"
-				    android:layout_height="1dp"
-				    android:layout_marginTop="3dp"
-				    android:layout_marginBottom="10dp"
-				    android:background="@android:color/darker_gray"/>
-	
-	            <LinearLayout
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_gravity="center"
-	                android:padding="10dp"
-	                 >
-	
-	                <ImageView
-	                    android:id="@+id/particle_pollutants_image"
+	                <FrameLayout
 	                    android:layout_width="wrap_content"
-	                    android:layout_height="wrap_content"
-	                     />
-	
-	                <TextView
-	                    android:id="@+id/particle_pollutants_value"
-	                    android:layout_width="fill_parent"
-	                    android:layout_height="wrap_content"
-	                    android:gravity="center"
-	                    android:text="TextView"
-	                    android:paddingTop="3dp"
-	                    android:textColor="@color/white"
-	                    android:textSize="@dimen/normalBigText" />
+	                    android:layout_height="wrap_content" >
+
+	                    <com.todddavies.components.progressbar.ProgressWheel
+	                        android:id="@+id/greenery_spinner"
+	                        android:layout_width="@dimen/bigwheelradius"
+	                        android:layout_height="@dimen/bigwheelradius"
+	                        ProgressWheel:barColor="#009324"
+	                        ProgressWheel:barLength="60dp"
+	                        ProgressWheel:barWidth="@dimen/barWidth"
+	                        ProgressWheel:rimWidth="@dimen/rimWidth"
+	                        ProgressWheel:textColor="#222"
+	                        ProgressWheel:textSize="@dimen/normalText" />
+
+	                    <ImageView
+	                        android:id="@+id/imageView1"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center"
+	                        android:src="@drawable/greenery_white" />
+	                </FrameLayout>
+
+		            <LinearLayout
+		                android:layout_width="fill_parent"
+		                android:layout_height="match_parent"
+		                android:orientation="vertical"
+		                android:gravity="center" >
+
+		                <TextView
+		                    android:id="@+id/lbl_greenery"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:gravity="center"
+		                    android:textColor="@color/white"
+		                    android:textSize="@dimen/normalText"
+		                    android:text="Greenery" />
+		                
+		                <TextView
+		                    android:id="@+id/lbl_greenery_value"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:layout_marginTop="10dp"
+		                    android:gravity="center"
+		                    android:textColor="@color/white"
+		                    android:textSize="@dimen/normalText"
+		                    android:text="45%" />
+		            </LinearLayout>
 	            </LinearLayout>
 	        </LinearLayout>
 	
 	        <LinearLayout
-	            android:id="@+id/chemical_pollutants_container"
+	            android:id="@+id/uv_container"
 	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_below="@+id/particle_pollutants_container"
+	            android:layout_height="fill_parent"
 	            android:layout_alignParentLeft="true"
-	            android:alpha="0.5"
+	            android:layout_below="@+id/greenery_container"
+	            android:alpha="0.6"
 	            android:background="@color/black"
 	            android:orientation="vertical"
-	            android:padding="20dp" >
-	
-	            <TextView
-	                android:id="@+id/chemical_pollutants_heading"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp"
+	            android:paddingTop="10dp"
+	            android:layout_marginBottom="10dp" >
+
+	            <RelativeLayout
 	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
-	                android:layout_alignParentLeft="true"
-	                android:alpha="1"
-	                android:text="Chemical Pollutants"
-	                android:textColor="@color/white"
-	                android:textSize="@dimen/okText" />
-	
-	            <View
-	                android:layout_width="fill_parent"
-	                android:layout_height="1dp"
-	                android:layout_marginBottom="10dp"
-	                android:layout_marginTop="3dp"
-	                android:background="@android:color/darker_gray" />
-	
+	                android:orientation="horizontal" >
+	            </RelativeLayout>
+
 	            <LinearLayout
 	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
-	                android:layout_gravity="center"
-	                android:padding="10dp" >
-	
-	                <ImageView
-	                    android:id="@+id/chemical_pollutants_image"
+	                android:orientation="horizontal" >
+
+	                <FrameLayout
 	                    android:layout_width="wrap_content"
-	                    android:layout_height="wrap_content" />
-	
-	                <TextView
-	                    android:id="@+id/chemical_pollutants_value"
-	                    android:layout_width="fill_parent"
-	                    android:layout_height="wrap_content"
-	                    android:text="TextView"
-	                    android:paddingTop="3dp"
-	                    android:gravity="center"
-	                    android:textColor="@color/white"
-	                    android:textSize="@dimen/normalBigText" />
+	                    android:layout_height="wrap_content" >
+
+	                    <com.todddavies.components.progressbar.ProgressWheel
+	                        android:id="@+id/uv_spinner"
+	                        android:layout_width="@dimen/bigwheelradius"
+	                        android:layout_height="@dimen/bigwheelradius"
+	                        ProgressWheel:barColor="#009324"
+	                        ProgressWheel:barLength="60dp"
+	                        ProgressWheel:barWidth="@dimen/barWidth"
+	                        ProgressWheel:rimWidth="@dimen/rimWidth"
+	                        ProgressWheel:textColor="#222"
+	                        ProgressWheel:textSize="@dimen/normalText" />
+
+	                    <ImageView
+	                        android:id="@+id/imageView1"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center"
+	                        android:src="@drawable/uv_white" />
+	                </FrameLayout>
+
+		            <LinearLayout
+		                android:layout_width="fill_parent"
+		                android:layout_height="match_parent"
+		                android:orientation="vertical"
+		                android:gravity="center" >
+
+		                <TextView
+		                    android:id="@+id/lbl_uv"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:gravity="center"
+		                    android:textColor="@color/white"
+		                    android:textSize="@dimen/normalText"
+		                    android:text="Ultraviolet" />
+		                
+		                <TextView
+		                    android:id="@+id/lbl_uv_value"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:layout_marginTop="10dp"
+		                    android:gravity="center"
+		                    android:textColor="@color/white"
+		                    android:textSize="@dimen/normalText"
+		                    android:text="85%" />
+		            </LinearLayout>
 	            </LinearLayout>
 	        </LinearLayout>
-	        <LinearLayout
-	            android:id="@+id/gaseous_pollutants_container"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_below="@+id/chemical_pollutants_container"
-	            android:layout_alignParentLeft="true"
-	            android:alpha="0.5"
-	            android:background="@color/black"
-	            android:orientation="vertical"
-	            android:padding="20dp" >
-	
-	            <TextView
-	                android:id="@+id/gaseous_pollutants_heading"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentLeft="true"
-	                android:alpha="1"
-	                android:text="Gaseous Pollutants"
-	                android:textColor="@color/white"
-	                android:textSize="@dimen/okText" />
-	
-	            <View
-	                android:layout_width="fill_parent"
-	                android:layout_height="1dp"
-	                android:layout_marginBottom="10dp"
-	                android:layout_marginTop="3dp"
-	                android:background="@android:color/darker_gray" />
-	
-	            <LinearLayout
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_gravity="center"
-	                android:padding="10dp" >
-	
-	                <ImageView
-	                    android:id="@+id/gaseous_pollutants_image"
-	                    android:layout_width="wrap_content"
-	                    android:layout_height="wrap_content" />
-	
-	                <TextView
-	                    android:id="@+id/gaseous_pollutants_value"
-	                    android:layout_width="fill_parent"
-	                    android:layout_height="wrap_content"
-	                    android:text="TextView"
-	                    android:paddingTop="3dp"
-	                    android:textColor="@color/white"
-	                    android:gravity="center"
-	                    android:textSize="@dimen/normalBigText" />
-	            </LinearLayout>
-	        </LinearLayout>
-			<View
-			    	android:layout_below="@+id/gaseous_pollutants_container"
-				    android:layout_width="fill_parent"
-				    android:layout_height="10dp"/>
+	        
 	    </RelativeLayout>
 	             
     </ScrollView>
-    <LinearLayout
-        android:id="@+id/ad_layout"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-        
-    </LinearLayout>
-    </FrameLayout>
 
