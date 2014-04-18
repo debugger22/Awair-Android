@@ -4,6 +4,7 @@ package com.pirhoalpha.ubiplug_oaq;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -28,10 +29,9 @@ public class SplashActivity extends Activity {
     private static int SPLASH_TIME_OUT = 2000;
     private TextView textView;
     private Animation animFadeIn;
-	private DatabaseReaderHelper mDbHelper;
 	private int sdk = android.os.Build.VERSION.SDK_INT;
-	
-    @SuppressLint("NewApi")
+    
+	@SuppressLint("NewApi")
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,18 +46,16 @@ public class SplashActivity extends Activity {
         textView.startAnimation(animFadeIn);
         if(sdk>=14)textView.setAlpha((float) 0.7);
         textView.setTextColor(Color.rgb(220, 220, 180));
-        
-        //textView.setVisibility(View.INVISIBLE);
-        
+
         Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(),"fonts/roboto-condensed-bold.ttf");
         textView.setTypeface(tf);
-
+        SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
+        final boolean installed = settings.getBoolean("installed", false);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-            	mDbHelper = new DatabaseReaderHelper(getBaseContext());
             	
-            	if(mDbHelper.getData()==null){
+            	if(!installed){
             		Intent i = new Intent(SplashActivity.this, MainActivity.class);
                 	finish();
                 	startActivity(i);	

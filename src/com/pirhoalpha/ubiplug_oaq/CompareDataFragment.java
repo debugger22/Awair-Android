@@ -92,10 +92,6 @@ public class CompareDataFragment extends Fragment {
     	getCitiesData(getActivity()); //Loading the data from the server
     	
     	// Getting pollution data from intent
-    	particleData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[0];
-    	chemicalData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[1];
-    	gaseousData = ((String[])getActivity().getIntent().getSerializableExtra("pollutants_data"))[2];
-    	overallData = String.valueOf((int) (100-(Math.min(Double.valueOf(particleData), 480.0)/5.0)));
     	
     	// Getting views from xml
     	cityHome = (TextView)getActivity().findViewById(R.id.city_home);

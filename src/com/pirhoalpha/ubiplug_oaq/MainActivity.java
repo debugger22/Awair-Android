@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.util.Log;
 import android.view.Menu;
@@ -51,10 +52,9 @@ import com.loopj.android.http.RequestParams;
 
 public class MainActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener, android.location.LocationListener{
 	
-	private Map<String,String> newData;
+	private Map<String,String> new_data;
 	double lat;
 	double lng;
-	private DatabaseReaderHelper mDbHelper;
 	private ProgressDialog dialog;
 	private Boolean dataAdded=false;
 	private LocationClient locationclient;
@@ -65,15 +65,13 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		if(Build.VERSION.SDK_INT>=15)getActionBar().setIcon(R.drawable.home);
-		mDbHelper = new DatabaseReaderHelper(getBaseContext());
-		
+		if(Build.VERSION.SDK_INT>=14)getActionBar().setIcon(R.drawable.home);
 		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		if(!locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 			Toast.makeText(this, "Please turn on Network based location service.", Toast.LENGTH_SHORT).show();
 		}else{
-			//locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		}
 		
 		dialog = new ProgressDialog(MainActivity.this);
@@ -101,7 +99,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 			}
 		});
 
-		int resp =GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		int resp = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		if(resp == ConnectionResult.SUCCESS){
 			locationclient = new LocationClient(this,this,this);
 			locationclient.connect();
@@ -185,8 +183,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 						runOnUiThread(new Runnable (){
 							@Override
 							public void run() {
-								final String url = new String(DatabaseReader.AirData.BASE_URL);
-								final int DEFAULT_TIMEOUT = 100 * 1000;
+								final String url = new String(Constants.DATA_URL);
+								final int DEFAULT_TIMEOUT = 90 * 1000; //1.5 minutes timeout
 						    	try {
 						        	AsyncHttpClient client = new AsyncHttpClient();
 						        	client.setTimeout(DEFAULT_TIMEOUT);
@@ -208,30 +206,30 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 											    }                
 										  };
 									    	try{
-									    		newData = (Map)parser.parse(response, containerFactory);
-									    		//mDbHelper.flushData();
-									    		int newRowId = mDbHelper.addData(newData);
-									    		if(newRowId!=-1){
-									    			//Toast.makeText(MainActivity.this, String.valueOf(newRowId), Toast.LENGTH_SHORT).show();
-									    		}else{
-									    			Toast.makeText(MainActivity.this, "Data not added", Toast.LENGTH_SHORT).show();
-									    		}
-									    		dialog.dismiss();
+									    		new_data = (Map)parser.parse(response, containerFactory);
 									    		
-									    		try {
-									    			OutputStreamWriter outputStreamWriter = new OutputStreamWriter
-									    					(MainActivity.this.openFileOutput(UserDataManager.FILENAME, Context.MODE_PRIVATE));
-									    			outputStreamWriter.write("name::email::1::1::0::0");
-									    			outputStreamWriter.close();
-												}catch (IOException e) {
-											        Log.e("UserDataManager", "File not found to write in: " + e.toString());
-											    } 
+									    		// Caching data in the shared preferences
+									    		SharedPreferences data_prefs = getSharedPreferences(Constants.DATA_CACHE_PREFS_NAME, 0);
+								    			SharedPreferences.Editor data_prefs_editor = data_prefs.edit();
+								    			data_prefs_editor.putString("aq", new_data.get("aq"));
+								    			data_prefs_editor.putString("greenery", new_data.get("greenery"));
+								    			data_prefs_editor.putString("city_name", new_data.get("city_name"));
+								    			data_prefs_editor.putString("address", new_data.get("address"));
+								    			data_prefs_editor.commit();
+								    			
+								    			// Changing the value of installed boolean from false to true
+								    			SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
+								    			SharedPreferences.Editor editor = settings.edit();
+								    			editor.putBoolean("installed", true);
+								    			editor.commit();
 									    		
+								    			dialog.dismiss(); //Removing the dialog
+
 									    		Intent i = new Intent(MainActivity.this,ViewActivity.class);
 									    		finish();
 									    		startActivity(i);
-									    		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-									    		//TODO
+									    		
+									    		//overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 									    				
 									    		
 									    	}catch(ParseException pe){
@@ -248,12 +246,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 									    	reportError("MainActivity "+error.toString()+" "+response);
 									    	dialog.dismiss();
 									    	finish();
-									    	
 									    }
-									    
-									});	
-						        	    	
-						        	    
+									});		
 						       	}
 						    	catch(Exception e){
 						    		Log.v("INTERNET", "Unable to connect"+e.toString());
@@ -261,17 +255,13 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 						    		finish();
 						    	}
 							}
-							
 						});
-						
-						
 					} catch (Exception e) {
 						Log.v("error",e.toString());
 						reportError(e.toString());
 						Toast.makeText(MainActivity.this, "Current location not available", Toast.LENGTH_SHORT).show();
 						finish();
 					}
-					
 				}
 		    };
 		    
@@ -279,9 +269,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 		    dataAdded = true;
 		}
 	}
-	
-	
-	
+
+
 	public void reportError(final String message){
 		Runnable r = new Runnable() {
 			@Override
@@ -309,10 +298,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 								    public void onFailure(Throwable error, String response){
 								    	Toast.makeText(MainActivity.this, "Error could not be reported.", Toast.LENGTH_SHORT).show();
 								    }
-								    
 								});	
-					        	    	
-					        	    
 					       	}
 					    	catch(Exception e){
 					    		Log.v("INTERNET", "Unable to connect"+e.toString());
@@ -320,15 +306,11 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 						}
 						
 					});
-					
-					
 				} catch (Exception e) {
 					Log.v("error",e.toString());
 				}
-				
 			}
 	    };
-	    
 	    new Handler().postDelayed(r, 1);
 	}
 

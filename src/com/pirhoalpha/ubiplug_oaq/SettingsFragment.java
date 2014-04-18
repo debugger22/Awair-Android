@@ -1,13 +1,15 @@
 package com.pirhoalpha.ubiplug_oaq;
 
 import java.security.MessageDigest;
+
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+/*
 import com.facebook.*;
 import com.facebook.model.*;
 import com.facebook.widget.LoginButton;
-
+*/
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,9 +34,9 @@ public class SettingsFragment extends Fragment {
         Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.settings_fragment, container, false);
-        LoginButton authButton = (LoginButton) rootView.findViewById(R.id.authButton);
-    	authButton.setFragment(this);
-    	authButton.setPublishPermissions(Arrays.asList("publish_stream"));
+        //LoginButton authButton = (LoginButton) rootView.findViewById(R.id.authButton);
+    	//authButton.setFragment(this);
+    	//authButton.setPublishPermissions(Arrays.asList("publish_stream"));
     	//authButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
         return rootView;
     }
