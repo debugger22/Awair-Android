@@ -2,8 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/mnuShowCity" android:enabled="false" android:showAsAction="always|withText" android:visible="true"></item>
     <!-- <item android:id="@+id/mnuGetDetails" android:enabled="true" android:showAsAction="always|withText" android:title="Details" android:visible="true"></item>-->
+    <item android:id="@+id/mnuTweet" android:title="Tweet" android:enabled="true" android:showAsAction="always" android:icon="@drawable/twitter_logo" android:visible="true"></item>
     <item android:id="@+id/mnuCompare" android:title="Compare" android:enabled="true" android:showAsAction="always" android:icon="@drawable/ic_action_location_web_site" android:visible="true"></item>
     <item android:id="@+id/mnuKnowMore" android:title="Know More" android:enabled="true" android:showAsAction="always" android:icon="@drawable/ic_action_collections_view_as_list" android:visible="true"></item>
-	<item android:id="@+id/mnuRecommend" android:title="Recommend" android:icon="@drawable/ic_action_social_share" android:enabled="true" android:showAsAction="ifRoom" android:visible="true"></item>
+	<item android:id="@+id/mnuRecommend" android:title="Recommend" android:icon="@drawable/ic_action_social_share" android:enabled="true" android:showAsAction="always" android:visible="true"></item>
 <!--<item android:id="@+id/mnuShareOnFB" android:title="Share on Facebook" android:icon="@drawable/ic_action_social_share" android:enabled="true" android:showAsAction="ifRoom" android:visible="true"></item>-->
 </menu>

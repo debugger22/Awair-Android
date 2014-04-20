@@ -25,6 +25,9 @@ import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -39,6 +42,7 @@ import com.loopj.android.http.RequestParams;
 import com.todddavies.components.progressbar.ProgressWheel;
 
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -368,13 +372,18 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	    		Intent i = new Intent(ViewActivity.this,KnowMore.class);
 	        	i.putExtra("showcompare", true);
 	        	startActivity(i);
-	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+	     		//overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 	     		break;
 	        case R.id.mnuKnowMore:
 	        	Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
 	        	startActivity(i1);
-	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+	     		//overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 	    		break;
+	    		
+	        case R.id.mnuTweet:
+	        	
+	    		break;
+	    		
 	        case R.id.mnuRecommend:
 	        	Intent sendIntent = new Intent();
 	        	sendIntent.setAction(Intent.ACTION_SEND);
