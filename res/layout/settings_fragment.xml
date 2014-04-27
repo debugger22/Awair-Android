@@ -5,91 +5,39 @@
 	android:layout_height="match_parent"
 	android:padding="10dp"
 	android:background="@color/fb_light_blue">
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"    
-	    android:orientation="vertical" >
 	
 	    <LinearLayout
 	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
+	        android:layout_height="match_parent"
+	        android:background="@color/white"
 	        android:orientation="vertical"
-	        android:padding="10dp"
-	        android:background="@color/white" >
-	
-	        <com.facebook.widget.LoginButton
-		        android:id="@+id/authButton"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center_horizontal"
-		        android:layout_marginBottom="10dp"
-		        />
+	        android:padding="10dp" >
 
-	        <LinearLayout
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginBottom="10dp" >
-
-	            <TextView
-	                android:id="@+id/lblName"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:textSize="@dimen/okText"
-	                android:text="Name"
-	                android:layout_marginRight="15dp" />
-
-	            <EditText
-	                android:id="@+id/txtName"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="1"
-	                android:ems="10"
-	                android:inputType="textPersonName" >
-
-	                <requestFocus />
-	            </EditText>
-
-	        </LinearLayout>
-
-	        <LinearLayout
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginBottom="20dp" >
-
-	            <TextView
-	                android:id="@+id/lblEmail"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:textSize="@dimen/okText"
-	                android:text="Email"
-	                android:layout_marginRight="15dp" />
-
-	            <EditText
-	                android:id="@+id/txtEmail"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="1"
-	                android:ems="10"
-	                android:inputType="textEmailAddress" />
-
-	        </LinearLayout>
 
 	        <CheckBox
-	            android:id="@+id/chkBxNotifications"
+	            android:id="@+id/chkBoxNotifications"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:text="Enable Notifications"
 	            android:checked="true" />
+			
+	        <Button
+	            android:id="@+id/cmdSetNotificationTime" 
+			    android:layout_width="wrap_content" 
+			    android:layout_height="wrap_content"
+			    android:text="Set Notification Time" 
+			    android:layout_gravity="center"
+			    android:layout_marginTop="20dp" />
 
-	        <CheckBox
-	            android:id="@+id/chkBxDidYouKnow"
+	        <TextView
+	            android:id="@+id/current_notification_time"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="Enable Did You Know"
-	            android:checked="true" />
-	
-	    </LinearLayout>
+	            android:layout_gravity="center"
+	            android:layout_marginTop="10dp"
+	            android:textSize="@dimen/smallText"
+	            android:textColor="@color/gray"
+	            android:text="Current Set Time" />
 	
 	</LinearLayout>
 </ScrollView>

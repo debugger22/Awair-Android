@@ -1,5 +1,6 @@
 package com.pirhoalpha.ubiplug_oaq;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ import android.app.Service;
 import android.app.Notification.Builder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
@@ -66,7 +68,7 @@ public class ClientNotificationService extends Service implements GooglePlayServ
 	@Override
 	public void onCreate() {
 		Log.v("Service", "Service started");
-		int resp =GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		int resp = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		if(resp == ConnectionResult.SUCCESS){
 			locationclient = new LocationClient(this,this,this);
 			locationclient.connect();
@@ -155,8 +157,8 @@ public class ClientNotificationService extends Service implements GooglePlayServ
 		if(!GSMDataAdded){
 			lat =  location.getLatitude();
 		    lng = location.getLongitude();
-		    
-			final String url = new String(DatabaseReader.AirData.BASE_URL);
+		    final String hour = String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+			final String url = new String(Constants.DATA_URL);
 			final int DEFAULT_TIMEOUT = 100 * 1000;
 	    	try {
 	        	AsyncHttpClient client = new AsyncHttpClient();
@@ -164,6 +166,8 @@ public class ClientNotificationService extends Service implements GooglePlayServ
     	    	RequestParams params = new RequestParams();
     	    	params.put("lat", String.valueOf(lat));
     	    	params.put("lng", String.valueOf(lng));
+    	    	params.put("hh", hour);
+    	    	params.put("mm", "00");
     	    	client.post(this,url,params,new AsyncHttpResponseHandler(){
 				    @Override
 				    public void onSuccess(String response) {
@@ -178,10 +182,10 @@ public class ClientNotificationService extends Service implements GooglePlayServ
 						};
 						try{
 							data = (HashMap<String, String>)parser.parse(response, containerFactory);
-							int pm25 = Integer.valueOf((String)data.get("pm25").split(" ")[0]);
-							String percentQuality = String.valueOf((int) (100-(Math.min(Double.valueOf(pm25), 480.0)/5.0)));
-							String msg = "Air quality around you is "+percentQuality+"%. Have a nice day!";
-							sendNotification("Air Quality",msg,"general_purpose","");
+							String msg = "Air quality around you is "+data.get("aq")+"%. Have a nice day!";
+							SharedPreferences data_prefs = getSharedPreferences(Constants.PREFS_NAME, 0);
+					    	boolean checked = data_prefs.getBoolean("notification", false);
+					    	if(checked)	sendNotification("Air Quality",msg,"general_purpose","");
 							
 						}catch(Exception pe){
 							Log.v("PARSE_ERROR",pe.toString());

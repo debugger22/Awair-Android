@@ -107,9 +107,11 @@ public class KnowMore extends FragmentActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
  
         if (savedInstanceState == null) {
-            // on first time display view for first nav item
-            if(getIntent().getBooleanExtra("showcompare", false))displayView(3);
-            else displayView(0);
+        	// Open particular fragment
+        	if(getIntent().getIntExtra("which_fragment", 0) == 0)displayView(0);
+        	if(getIntent().getIntExtra("which_fragment", 0) == 1)displayView(1);
+            if(getIntent().getIntExtra("which_fragment", 0) == 2)displayView(2);
+            if(getIntent().getIntExtra("which_fragment", 0) == 3)displayView(3);
         }
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 	}

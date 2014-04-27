@@ -34,6 +34,7 @@ import com.google.android.gms.location.LocationRequest;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -134,7 +135,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 	 public void onLocationChanged(Location location) {
 		Log.v("LOCATION", "location received");
 		locationReceived(location);
-		locationclient.removeLocationUpdates(this);
 	 }
 
 
@@ -176,6 +176,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 		if(!dataAdded){
 			lat =  location.getLatitude();
 		    lng = location.getLongitude();
+		    final String hour = String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 		    Runnable r = new Runnable() {
 				@Override
 				public void run() {
@@ -191,6 +192,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 				        	    	RequestParams params = new RequestParams();
 				        	    	params.put("lat", String.valueOf(lat));
 				        	    	params.put("lng", String.valueOf(lng));
+				        	    	params.put("hh", hour);
+									params.put("mm", "00");
 				  					client.post(MainActivity.this,url,params,new AsyncHttpResponseHandler() 
 										{
 									    @Override
@@ -212,7 +215,10 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 									    		SharedPreferences data_prefs = getSharedPreferences(Constants.DATA_CACHE_PREFS_NAME, 0);
 								    			SharedPreferences.Editor data_prefs_editor = data_prefs.edit();
 								    			data_prefs_editor.putString("aq", new_data.get("aq"));
+								    			data_prefs_editor.putString("total", new_data.get("total"));
 								    			data_prefs_editor.putString("greenery", new_data.get("greenery"));
+								    			data_prefs_editor.putString("uv",
+								    					String.valueOf(Math.round(Float.valueOf(new_data.get("uv")) * 100.0) / 100.0));
 								    			data_prefs_editor.putString("city_name", new_data.get("city_name"));
 								    			data_prefs_editor.putString("address", new_data.get("address"));
 								    			data_prefs_editor.commit();

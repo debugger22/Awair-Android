@@ -2,89 +2,41 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:fillViewport="true"
+    android:padding="10dp"
+    android:background="@drawable/greenery_background"
     >
-<LinearLayout
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:alpha="0.6"
+    android:background="@color/black"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@color/fb_light_blue" >
+    android:padding="10dp" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+    <TextView
+        android:id="@+id/lbl_greenery_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/smallText"
+        android:text="Besides being nice to look at, greenery also contributes to the mental, physical and emotional well-being of people. \n\n
+Research has shown a positive relationship between local green-space availability and residents' health, which may offer opportunities for health improvement. More greenery lowers asthma rates, obesity among children, helps cope with stress, improves mental health and also reduces noise and air pollution.\n\n
+‘People who will not sustain trees will soon live in a world which cannot sustain people’ – Bryce Nelson" />
 
-        <TextView
-            android:id="@+id/lbl_chemical_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chemicalinfo"
-            android:padding="10dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/clouds"
-            android:textSize="@dimen/smallText"
-            android:textColor="@color/darkgray" />
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/greenery_white" />
 
-        <TextView
-            android:id="@+id/lblchemicalvg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/verygood"
-            android:text="@string/chemicalvg" />
-        
-        <TextView
-            android:id="@+id/lblchemicalg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/good"
-            android:text="@string/chemicalg" />
-        <TextView
-            android:id="@+id/lblchemicalm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/moderate"
-            android:text="@string/chemicalm" />
-        <TextView
-            android:id="@+id/lblchemicalp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/poor"
-            android:text="@string/chemicalp" />
-        <TextView
-            android:id="@+id/lblchemicalb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:background="@color/bad"
-            android:text="@string/chemicalb" />
+</RelativeLayout>
 
-
-    </LinearLayout>
-
-</LinearLayout>
 </ScrollView>

@@ -21,8 +21,8 @@ public class GreeneryFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
     	super.onActivityCreated(savedInstanceState);
     	Typeface tf = Typeface.createFromAsset(getActivity().getApplicationContext().getAssets(),"fonts/roboto-regular.ttf");
-        TextView pm25info = (TextView)getActivity().findViewById(R.id.lbl_chemical_info);
-        pm25info.setTypeface(tf);
+        TextView lbl_greenery_text = (TextView)getActivity().findViewById(R.id.lbl_greenery_text);
+        lbl_greenery_text.setTypeface(tf);
     	
     }
     

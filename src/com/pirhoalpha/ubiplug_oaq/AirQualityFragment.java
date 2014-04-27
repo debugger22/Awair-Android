@@ -21,8 +21,8 @@ public class AirQualityFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
     	super.onActivityCreated(savedInstanceState);
     	Typeface tf = Typeface.createFromAsset(getActivity().getApplicationContext().getAssets(),"fonts/roboto-regular.ttf");
-        TextView pm25info = (TextView)getActivity().findViewById(R.id.lbl_particle_info);
-        pm25info.setTypeface(tf);
+        TextView lbl_aq_text = (TextView)getActivity().findViewById(R.id.lbl_aq_text);
+        lbl_aq_text.setTypeface(tf);
     	
     }
     

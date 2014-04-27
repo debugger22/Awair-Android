@@ -3,6 +3,8 @@ package com.pirhoalpha.ubiplug_oaq;
 
 import com.newrelic.agent.android.NewRelic;
 
+
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -39,6 +41,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.sbstrm.appirater.Appirater;
 import com.todddavies.components.progressbar.ProgressWheel;
 
 
@@ -66,15 +69,22 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnHoverListener;
+import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -92,7 +102,7 @@ import android.widget.Toast;
  * @author mrsud
  *
  */
-public class ViewActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener{
+public class ViewActivity extends FragmentActivity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener{
 	private HashMap<String,String> data;
 	private Boolean GSMDataAdded = false;
 	public static Double lat=(double) 0;
@@ -133,9 +143,10 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	//Data variables
 	public static String city_name;
 	public static String address;
-	public int aq;
+	public static int aq;
 	public int greenery;
-	public int uv;
+	public float uv;
+	public static int total;
 	
 	//View variables
 	private TextView lbl_aq;
@@ -180,7 +191,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
             try {
                 int i= msg.getData().getInt(KEY_UV);
                 uv_spinner.setProgress((int)(i*3.6));
-                lbl_uv_value.setText(""+i+"%");
+                
             } catch (Exception err) {
             	Log.v("Thread Error",err.toString());
             }
@@ -194,6 +205,17 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		setContentView(R.layout.activity_view);
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
+		//App Rater
+		RateMeMaybe rmm = new RateMeMaybe(this);
+		rmm.setPromptMinimums(10, 2, 10, 2);
+		rmm.setDialogMessage("You really seem to like this app, "
+		                +"since you have already used it %totalLaunchCount% times! "
+		                +"It would be great if you take a moment to rate it.");
+		rmm.setDialogTitle("Rate this app");
+		rmm.setPositiveBtn("Rate it!");
+		rmm.setRunWithoutPlayStore(true);
+		rmm.run();
+		
 		//Starting NewRelic tracker
 		NewRelic.withApplicationToken(
 				"AAa39164f4a89c94b2f6aa4de524840aac1ec6c32d"
@@ -203,8 +225,10 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
         StrictMode.setThreadPolicy(policy);
+        
+        // Start downloading data for compare cities
+        cache_compare_data();
         
         //-------------------------------------------Registering for GCM--------------------------------------
 		context = ViewActivity.this;	
@@ -237,6 +261,8 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		city_name = data_prefs.getString("city_name", null);
 		address = data_prefs.getString("address", null);
 		aq = Integer.parseInt(data_prefs.getString("aq", "0"));
+		uv = Float.valueOf((data_prefs.getString("uv", "0")));
+		total = Integer.parseInt(data_prefs.getString("total", "0"));
 		greenery = Integer.parseInt(data_prefs.getString("greenery", "0"));
 		
 		//View variables assignments
@@ -263,44 +289,27 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 
 			@Override
 			public void onClick(View v) {
-				/*
 				Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
-	        	i1.putExtra("pollutants_data", new String[]{String.valueOf(pm25),
-	        			chemicalValue,String.valueOf(o3),city_name});
-	        	i1.putExtra("fromdonut", true);
+	        	i1.putExtra("which_fragment", 0);
 	        	startActivity(i1);
-	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-				*/
 			}
 		});
 
 		greenery_spinner.setOnClickListener(new OnClickListener(){
-
 			@Override
-			public void onClick(View v) {
-				/*
+			public void onClick(View v) {				
 				Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
-	        	i1.putExtra("pollutants_data", new String[]{String.valueOf(pm25),
-	        			chemicalValue,String.valueOf(o3),city_name});
-	        	i1.putExtra("fromdonut", true);
+	        	i1.putExtra("which_fragment", 1);
 	        	startActivity(i1);
-	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-				*/
 			}
 		});
 		
 		uv_spinner.setOnClickListener(new OnClickListener(){
-
 			@Override
 			public void onClick(View v) {
-				/*
 				Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
-	        	i1.putExtra("pollutants_data", new String[]{String.valueOf(pm25),
-	        			chemicalValue,String.valueOf(o3),city_name});
-	        	i1.putExtra("fromdonut", true);
+	        	i1.putExtra("which_fragment", 2);
 	        	startActivity(i1);
-	     		overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-				*/
 			}
 		});
 		
@@ -313,22 +322,12 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(),  R.anim.fade_out);
 		animFadeIn.setDuration(1000);
 		updateUi();
-
-		
 	}
 	
 	@Override
 	public void onStart(){
 		super.onStart();
 		EasyTracker.getInstance(this).activityStart(this);
-		//Registering alarmmanager for notifications on 08:00 AM
-	 	Calendar calendar = Calendar.getInstance();
-	    calendar.set(Calendar.HOUR_OF_DAY, 8);
-	    Intent intent = new Intent(this, ClientNotificationService.class);
-	    PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
-	    AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-	    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , pintent);
-	    Log.v("Alarm", "Alarm registered");
 	}
 
 	@Override
@@ -354,7 +353,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	    switch (item.getItemId()) {
 	      
 	    	case R.id.mnuShowCity:
-	        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	        	builder.setMessage(address)
 	        			.setTitle("Your location")
 	        			.setIcon(getApplicationContext().getResources().getDrawable(R.drawable.location_icon))
@@ -370,7 +369,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	        	
 	    	case R.id.mnuCompare:
 	    		Intent i = new Intent(ViewActivity.this,KnowMore.class);
-	        	i.putExtra("showcompare", true);
+	        	i.putExtra("which_fragment", 3);
 	        	startActivity(i);
 	     		//overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 	     		break;
@@ -381,9 +380,15 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	    		break;
 	    		
 	        case R.id.mnuTweet:
-	        	
+	        	String tweetUrl = "https://twitter.com/intent/tweet?text="
+	        					+ "Just checked the ambient air quality around " + city_name + " using @AirAwair. ";
+	        	Uri uri = Uri.parse(tweetUrl);
+	        	Intent tweet =  new Intent(Intent.ACTION_VIEW, uri);
+	        	//tweet.putExtra(Intent.EXTRA_STREAM, screenShot(container));
+	        	//tweet.setType("image/jpeg");
+	        	startActivity(tweet);
 	    		break;
-	    		
+	    	/*	
 	        case R.id.mnuRecommend:
 	        	Intent sendIntent = new Intent();
 	        	sendIntent.setAction(Intent.ACTION_SEND);
@@ -392,7 +397,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	        	sendIntent.setType("text/plain");
 	        	startActivity(Intent.createChooser(sendIntent, "Share Awair with your loved ones"));
 	        	break;
-	    	
+	    	*/
 	    }
 		return true;
 	}
@@ -401,17 +406,17 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 	@SuppressLint("NewApi")
 	private void updateUi(){
 
-		if (aq>80){
+		if (total>80){
 			container.setBackground(getResources().getDrawable(R.drawable.bg_green_blurred));
 		}
 			
-		else if(aq<=80 && aq>50){
+		else if(total<=70 && total>50){
 			container.setBackground(getResources().getDrawable(R.drawable.bg_yellow_blurred));
 		}
-		else if(aq<=50){ 
+		else if(total<=50){ 
 			container.setBackground(getResources().getDrawable(R.drawable.bg_red_blurred));
 		}
-		
+
 		float devisor = 4;
 		if (aq>=80)devisor=(float) 0.5;
 		if (aq<80 && aq>=50)devisor=4;
@@ -419,10 +424,14 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		if(aq<40)aq_spinner.setBarColor(Color.rgb(180, 0, 0));
 
 		if (greenery>=80)devisor=(float) 0.5;
-		if (greenery<80 && greenery>=50)devisor=4;
+		if (greenery<80 && greenery>=20)devisor=4;
 		greenery_spinner.setBarColor(Color.rgb((int) (255 - greenery /devisor), 0+Math.min(greenery*4, 200), 0));
-		if(greenery<40)greenery_spinner.setBarColor(Color.rgb(180, 0, 0));
-		
+		if(greenery<20)greenery_spinner.setBarColor(Color.rgb(180, 0, 0));
+
+		if (uv<=4)uv_spinner.setBarColor(Color.rgb(0, 200, 0));
+		if (uv<8 && uv>=5)uv_spinner.setBarColor(Color.rgb(250, 250, 0));
+		if(uv>8)uv_spinner.setBarColor(Color.rgb(180, 0, 0));
+
 		Thread aq_wheel = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -461,6 +470,27 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
         });
         isRunningGreenery = true;
         greenery_wheel.start();
+        
+        lbl_uv_value.setText(String.valueOf(uv));
+		Thread uv_wheel = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    for (int i = 0; i <= (int)(uv*100/15) && isRunningUv ; i+=1) {
+                        Thread.sleep(FRAME_TIME_MS*(int)(i/1.5));	//controlling speed of the animation
+                        Bundle data= new Bundle();
+                        data.putInt(KEY_UV, i);
+                        Message message = uv_wheel_handler.obtainMessage();
+                        message.setData(data);
+                        uv_wheel_handler.sendMessage(message);
+                    }
+                    
+                }
+                catch (Throwable t) {
+                }
+            }
+        });
+        isRunningUv = true;
+        uv_wheel.start();
      
 	}	
 	 @Override
@@ -654,7 +684,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 		if(!GSMDataAdded){
 			lat =  location.getLatitude();
 		    lng = location.getLongitude();
-		    
+		    final String hour = String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 		    Log.v("LOCATION",String.valueOf(lat)+" " +String.valueOf(lng));
 		    Runnable r = new Runnable() {
 				@Override
@@ -671,57 +701,69 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 				        	    	RequestParams params = new RequestParams();
 				        	    	params.put("lat", String.valueOf(lat));
 				        	    	params.put("lng", String.valueOf(lng));
+				        	    	params.put("hh", hour);
+				        	    	params.put("mm", "00");
 				        	    	params.put("dev_id", deviceId);
 			        				client.post(ViewActivity.this,url,params,new AsyncHttpResponseHandler() 
 									{
 									    @Override
-											    public void onSuccess(String response) {
-											    	JSONParser parser=new JSONParser();
-											    	ContainerFactory containerFactory = new ContainerFactory(){
-													    public List creatArrayContainer() {
-													      return new LinkedList();
-													    }
-													    public Map createObjectContainer() {
-													      return new LinkedHashMap();
-													    }                
-												  };
-											    	try{
-											    		data = (HashMap<String, String>)parser.parse(response, containerFactory);
-											    		
-											    		// Caching data in the shared preferences
-											    		SharedPreferences data_prefs = getSharedPreferences(Constants.DATA_CACHE_PREFS_NAME, 0);
-										    			SharedPreferences.Editor data_prefs_editor = data_prefs.edit();
-										    			data_prefs_editor.putString("aq", data.get("aq"));
-										    			data_prefs_editor.putString("greenery", data.get("greenery"));
-										    			data_prefs_editor.putString("city_name", data.get("city_name"));
-										    			data_prefs_editor.putString("address", data.get("address"));
-										    			data_prefs_editor.commit();
-											    		
-										    			city_name = data.get("city_name");
-										    			address = data.get("address");
-										    			aq = Integer.parseInt(data.get("aq"));
-										    			greenery = Integer.parseInt(data.get("greenery"));
-										    			Log.v("GREENERY", data.get("greenery"));
-										    			mnuShowCity.setEnabled(true);
-										    			updateUi();
-											    		
-											    		
-											    	}catch(Exception pe){
-											    		Log.v("PARSE_ERROR",pe.toString());
-											    		reportError("Error: "+pe.toString()+
-									        	    			" Message: "+pe.getMessage()+" Response was: "+response);
-											    	}
-						        	    	
-						        	    }
+									    public void onSuccess(String response) {
+									    	JSONParser parser=new JSONParser();
+									    	ContainerFactory containerFactory = new ContainerFactory(){
+											    public List creatArrayContainer() {
+											      return new LinkedList();
+											    }
+											    public Map createObjectContainer() {
+											      return new LinkedHashMap();
+											    }                
+									    	};
+									    	try{
+									    		data = (HashMap<String, String>)parser.parse(response, containerFactory);
+
+									    		// Caching data in the shared preferences
+									    		SharedPreferences data_prefs = getSharedPreferences(Constants.DATA_CACHE_PREFS_NAME, 0);
+								    			SharedPreferences.Editor data_prefs_editor = data_prefs.edit();
+								    			data_prefs_editor.putString("aq", data.get("aq"));
+								    			data_prefs_editor.putString("total", data.get("total"));
+								    			data_prefs_editor.putString("uv",
+								    					String.valueOf(Math.round(Float.valueOf(data.get("uv")) * 100.0) / 100.0));
+								    			data_prefs_editor.putString("greenery", data.get("greenery"));
+								    			data_prefs_editor.putString("city_name", data.get("city_name"));
+								    			data_prefs_editor.putString("address", data.get("address"));
+								    			data_prefs_editor.commit();
+								    			mnuShowCity.setEnabled(true);
+								    			city_name = data.get("city_name");
+								    			address = data.get("address");
+								    			
+								    			// Rounding off uv two two decimal places
+								    			double rounduv = Math.round(Float.valueOf(data.get("uv")) * 100.0) / 100.0;
+								    			// Reanimate only when any value changes
+								    			if(aq != Integer.parseInt(data.get("aq")) ||
+								    					total != Integer.parseInt(data.get("total")) ||
+								    					(int)uv != (int)rounduv ||
+								    					greenery != Integer.parseInt(data.get("greenery")))
+								    			{
+									    			aq = Integer.parseInt(data.get("aq"));
+									    			total = Integer.parseInt(data.get("total"));
+									    			uv = Float.valueOf(data.get("uv"));
+									    			greenery = Integer.parseInt(data.get("greenery"));
+									    			updateUi();
+								    			}
+									    		
+									    	}catch(Exception pe){
+									    		Log.v("PARSE_ERROR",pe.toString());
+									    		reportError("Error: "+pe.toString()+
+							        	    			" Message: "+pe.getMessage()+" Response was: "+response);
+									    	}
+					        	    	
+									    }
 						        	    
 						    	    	@Override
 						        	    public void onFailure(Throwable error, String response){
 						        	    	Log.v("INTERNET_ERROR1", "Could not connect to internet "+response);
 						        	    	reportError("Error: "+error.toString()+
 						        	    			" Message: "+error.getMessage()+" Response was: "+response);
-						        	    	
 						        	    }
-						        	    
 						           	});
 						       	}
 						    	catch(Exception e){
@@ -730,7 +772,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 				        	    			" Message: "+e.getMessage());
 						    	}
 							}
-							
 						});
 						
 						
@@ -740,7 +781,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 						reportError("Error: "+e.toString()+
 	        	    			" Message: "+e.getMessage());
 					}
-					
 				}
 		    };
 		    
@@ -770,7 +810,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 									{
 								    @Override
 								    public void onSuccess(String response) {
-								    	
+								    	//Do Nothing
 								    }
 								    @Override
 								    public void onFailure(Throwable error, String response){
@@ -778,8 +818,6 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 								    }
 								    
 								});	
-					        	    	
-					        	    
 					       	}
 					    	catch(Exception e){
 					    		Log.v("INTERNET", "Unable to connect"+e.toString());
@@ -812,7 +850,7 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
 			{
 			    @Override
 			    public void onSuccess(String response) {
-					    		
+					Log.v("CACHE", response);
 		    		// Caching compare data in the shared preferences
 		    		SharedPreferences data_prefs = getSharedPreferences(Constants.DATA_CACHE_PREFS_NAME, 0);
 	    			SharedPreferences.Editor data_prefs_editor = data_prefs.edit();
@@ -834,5 +872,24 @@ public class ViewActivity extends Activity implements GooglePlayServicesClient.C
     		reportError("Error: "+e.toString()+
 	    			" Message: "+e.getMessage());
     	}
+	}
+	
+	public String screenShot(View view) {
+	    Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
+	            view.getHeight(), Config.ARGB_8888);
+	    Canvas canvas = new Canvas(bitmap);
+	    view.draw(canvas);
+	    FileOutputStream out = null;
+	    try {
+	           out = new FileOutputStream("tmp.jpeg");
+	           bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	           try{
+	               out.close();
+	           } catch(Throwable ignore) {}
+	    }
+	    return "tmp.png";
 	}
 }

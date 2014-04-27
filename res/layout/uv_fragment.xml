@@ -2,89 +2,41 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:fillViewport="true"
+    android:padding="10dp"
+    android:background="@drawable/uv_background"
     >
-<LinearLayout
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:alpha="0.6"
+    android:background="@color/black"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@color/fb_light_blue" >
+    android:padding="10dp" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+    <TextView
+        android:id="@+id/lbl_uv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/smallText"
+        android:text="Did you know that overexposure to the sun can cause skin and eye injury? While some sunlight is necessary, too much is dangerous, causing sunburn, premature aging of the skin, skin cancer, cataracts, allergies, and damage to the immune system.\n\n
+The ill effects of sunlight are caused by ultraviolet (UV) radiation. These invisible rays from the sun come in two types, called UVA and UVB, both of which cause sun-related skin damage.\n\n
+There are no safe UV rays. The UV Index provides a forecast of the expected risk of overexposure to UV radiation from the sun." />
 
-        <TextView
-            android:id="@+id/lbl_gaseous_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gaseousinfo"
-            android:padding="10dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/clouds"
-            android:textSize="@dimen/smallText"
-            android:textColor="@color/darkgray" />
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/uv_white" />
 
-        <TextView
-            android:id="@+id/lblgaseousvg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/verygood"
-            android:text="@string/gaseousvg" />
-        
-        <TextView
-            android:id="@+id/lblgaseousg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/good"
-            android:text="@string/gaseousg" />
-        <TextView
-            android:id="@+id/lblgaseousm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/moderate"
-            android:text="@string/gaseousm" />
-        <TextView
-            android:id="@+id/lblgaseousp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/poor"
-            android:text="@string/gaseousp" />
-        <TextView
-            android:id="@+id/lblgaseousb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:background="@color/bad"
-            android:text="@string/gaseousb" />
+</RelativeLayout>
 
-
-    </LinearLayout>
-
-</LinearLayout>
 </ScrollView>

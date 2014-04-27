@@ -2,89 +2,41 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:fillViewport="true"
+    android:padding="10dp"
+    android:background="@drawable/air_quality_background"
     >
-<LinearLayout
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:alpha="0.6"
+    android:background="@color/black"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@color/fb_light_blue" >
+    android:padding="10dp" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+    <TextView
+        android:id="@+id/lbl_aq_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/smallText"
+        android:text="Getting a breath of fresh air isn't as easy as it used to be. The term “air quality” means the state of the air around us. Good air quality refers to clean, clear, unpolluted air.\n\n
+Clean air is essential to maintaining the delicate balance of life on this planet — not just for humans, but wildlife, vegetation, water and soil.\n\n
+Poor air quality is a result of a number of factors, including emissions from various sources, both natural and “human-caused.” Poor air quality occurs when pollutants reach high enough concentrations to endanger human health and the environment." />
 
-        <TextView
-            android:id="@+id/lbl_particle_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pm25info"
-            android:padding="10dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/clouds"
-            android:textSize="@dimen/smallText"
-            android:textColor="@color/darkgray" />
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/air_quality_white" />
 
-        <TextView
-            android:id="@+id/lblpm25vg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/verygood"
-            android:text="@string/pm25vg" />
-        
-        <TextView
-            android:id="@+id/lblpm25g"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/good"
-            android:text="@string/pm25g" />
-        <TextView
-            android:id="@+id/lblpm25m"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/moderate"
-            android:text="@string/pm25m" />
-        <TextView
-            android:id="@+id/lblpm25p"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:background="@color/poor"
-            android:text="@string/pm25p" />
-        <TextView
-            android:id="@+id/lblpm25b"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:background="@color/bad"
-            android:text="@string/pm25b" />
+</RelativeLayout>
 
-
-    </LinearLayout>
-
-</LinearLayout>
 </ScrollView>
