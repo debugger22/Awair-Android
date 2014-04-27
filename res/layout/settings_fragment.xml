@@ -18,6 +18,7 @@
 	            android:id="@+id/chkBoxNotifications"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
+	            android:textColor="@color/gray"
 	            android:text="Enable Notifications"
 	            android:checked="true" />
 			
@@ -26,6 +27,7 @@
 			    android:layout_width="wrap_content" 
 			    android:layout_height="wrap_content"
 			    android:text="Set Notification Time" 
+			    android:textColor="@color/gray"
 			    android:layout_gravity="center"
 			    android:layout_marginTop="20dp" />
 

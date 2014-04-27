@@ -373,12 +373,13 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 	        	startActivity(i);
 	     		//overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 	     		break;
-	        case R.id.mnuKnowMore:
+	        /*
+	    	case R.id.mnuKnowMore:
 	        	Intent i1 = new Intent(ViewActivity.this,KnowMore.class);
 	        	startActivity(i1);
 	     		//overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 	    		break;
-	    		
+	    	*/	
 	        case R.id.mnuTweet:
 	        	String tweetUrl = "https://twitter.com/intent/tweet?text="
 	        					+ "Just checked the ambient air quality around " + city_name + " using @AirAwair. ";
