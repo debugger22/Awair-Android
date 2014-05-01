@@ -9,7 +9,7 @@ public class NavDrawerItem {
     private boolean isCounterVisible = false;
      
     public NavDrawerItem(){}
- 
+
     public NavDrawerItem(String title, int icon){
         this.title = title;
         this.icon = icon;

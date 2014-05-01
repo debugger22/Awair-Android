@@ -1,9 +1,6 @@
 package com.pirhoalpha.ubiplug_oaq;
 
 
-import com.newrelic.agent.android.NewRelic;
-
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,8 +24,6 @@ import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -212,17 +207,12 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 		                +"since you have already used it %totalLaunchCount% times! "
 		                +"It would be great if you take a moment to rate it.");
 		rmm.setDialogTitle("Rate this app");
-		rmm.setPositiveBtn("Rate it!");
+		rmm.setPositiveBtn("Rate Awair");
 		rmm.setRunWithoutPlayStore(true);
 		rmm.run();
-		
-		//Starting NewRelic tracker
-		NewRelic.withApplicationToken(
-				"AAa39164f4a89c94b2f6aa4de524840aac1ec6c32d"
-				).start(this.getApplication());
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        //        WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -741,12 +731,12 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 								    			// Reanimate only when any value changes
 								    			if(aq != Integer.parseInt(data.get("aq")) ||
 								    					total != Integer.parseInt(data.get("total")) ||
-								    					(int)uv != (int)rounduv ||
+								    					//(int)uv != (int)rounduv ||
 								    					greenery != Integer.parseInt(data.get("greenery")))
 								    			{
 									    			aq = Integer.parseInt(data.get("aq"));
 									    			total = Integer.parseInt(data.get("total"));
-									    			uv = Float.valueOf(data.get("uv"));
+									    			uv = (float) rounduv;
 									    			greenery = Integer.parseInt(data.get("greenery"));
 									    			updateUi();
 								    			}
@@ -761,6 +751,7 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 						        	    
 						    	    	@Override
 						        	    public void onFailure(Throwable error, String response){
+						    	    		Toast.makeText(ViewActivity.this, "Could not connect to Awair server.", Toast.LENGTH_SHORT).show();
 						        	    	Log.v("INTERNET_ERROR1", "Could not connect to internet "+response);
 						        	    	reportError("Error: "+error.toString()+
 						        	    			" Message: "+error.getMessage()+" Response was: "+response);
@@ -768,6 +759,7 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 						           	});
 						       	}
 						    	catch(Exception e){
+						    		Toast.makeText(ViewActivity.this, "Could not connect to Awair server.", Toast.LENGTH_SHORT).show();
 						    		Log.v("INTERNET", "Unable to connect"+e.toString());
 						    		reportError("Error: "+e.toString()+
 				        	    			" Message: "+e.getMessage());
@@ -815,7 +807,7 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 								    }
 								    @Override
 								    public void onFailure(Throwable error, String response){
-								    	Toast.makeText(ViewActivity.this, "Error could not be reported.", Toast.LENGTH_SHORT).show();
+								    	//Toast.makeText(ViewActivity.this, "Error could not be reported.", Toast.LENGTH_SHORT).show();
 								    }
 								    
 								});	
@@ -851,7 +843,7 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 			{
 			    @Override
 			    public void onSuccess(String response) {
-					Log.v("CACHE", response);
+					
 		    		// Caching compare data in the shared preferences
 		    		SharedPreferences data_prefs = getSharedPreferences(Constants.DATA_CACHE_PREFS_NAME, 0);
 	    			SharedPreferences.Editor data_prefs_editor = data_prefs.edit();

@@ -207,25 +207,25 @@ public class CompareDataFragment extends Fragment {
 		ObjectAnimator animation4 = ObjectAnimator.ofInt(pCity4, "progress", val4);
 		ObjectAnimator animation5 = ObjectAnimator.ofInt(pCity5, "progress", val5);
 		ObjectAnimator animation6 = ObjectAnimator.ofInt(pCity6, "progress", val6);
-		animHome.setDuration(1000); // 1 second
+		animHome.setDuration(1500); // 1.5 second
 	    animHome.setInterpolator(new DecelerateInterpolator());
 	    animHome.start();
-		animation1.setDuration(1000); // 1 second
+		animation1.setDuration(1500); // 1.5 second
 	    animation1.setInterpolator(new DecelerateInterpolator());
 	    animation1.start();
-	    animation2.setDuration(1000); // 1 second
+	    animation2.setDuration(1500); // 1.5 second
 	    animation2.setInterpolator(new DecelerateInterpolator());
 	    animation2.start();
-	    animation3.setDuration(1000); // 1 second
+	    animation3.setDuration(1500); // 1.5 second
 	    animation3.setInterpolator(new DecelerateInterpolator());
 	    animation3.start();
-	    animation4.setDuration(1000); // 1 second
+	    animation4.setDuration(1500); // 1.5 second
 	    animation4.setInterpolator(new DecelerateInterpolator());
 	    animation4.start();
-	    animation5.setDuration(1000); // 1 second
+	    animation5.setDuration(1500); // 1.5 second
 	    animation5.setInterpolator(new DecelerateInterpolator());
 	    animation5.start();
-	    animation6.setDuration(1000); // 1 second
+	    animation6.setDuration(1500); // 1.5 second
 	    animation6.setInterpolator(new DecelerateInterpolator());
 	    animation6.start();
 	    

@@ -32,7 +32,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <LinearLayout
 	                android:layout_width="match_parent"
@@ -55,7 +55,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog1"
@@ -71,7 +71,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog2"
@@ -86,7 +86,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog3"
@@ -101,7 +101,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog4"
@@ -116,7 +116,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog5"
@@ -131,7 +131,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog6"
