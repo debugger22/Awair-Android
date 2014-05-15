@@ -169,6 +169,9 @@ public class CompareDataFragment extends Fragment {
 		    			getAppropriateProgressBar(val5)));
 			    pCity6.setProgressDrawable(getActivity().getResources().getDrawable(
 		    			getAppropriateProgressBar(val6)));
+    		}else{
+    			Toast.makeText(getActivity(), "Data isn't available yet, please try again later.",
+    					Toast.LENGTH_LONG).show();
     		}
     		
     	}catch(Exception pe){
@@ -247,15 +250,17 @@ public class CompareDataFragment extends Fragment {
 					getActivity().runOnUiThread(new Runnable (){
 						@Override
 						public void run() {
-							final String url = new String(DatabaseReader.AirData.ERROR_REPORT_URL);
+							final String url = new String(Constants.ERROR_REPORT_URL);
 							final int DEFAULT_TIMEOUT = 100 * 1000;
 					    	try {
 					        	AsyncHttpClient client = new AsyncHttpClient();
 					        	client.setTimeout(DEFAULT_TIMEOUT);
 			        	    	RequestParams params = new RequestParams();
-			        	    	params.put("dev_id", Secure.getString(getActivity().getApplicationContext().getContentResolver(),Secure.ANDROID_ID));
+			        	    	params.put("dev_id", Secure.getString(getActivity().getApplicationContext()
+			        	    			.getContentResolver(),Secure.ANDROID_ID));
 			        	    	params.put("message", message);
-			  					params.put("version", getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
+			  					params.put("version", getActivity().getPackageManager().getPackageInfo(
+			  							getActivity().getPackageName(), 0).versionName);
 			        	    	client.post(getActivity(),url,params,new AsyncHttpResponseHandler() 
 									{
 								    @Override
@@ -264,7 +269,7 @@ public class CompareDataFragment extends Fragment {
 								    }
 								    @Override
 								    public void onFailure(Throwable error, String response){
-								    	Toast.makeText(getActivity(), "Error could not be reported.", Toast.LENGTH_SHORT).show();
+								    	Toast.makeText(getActivity(), "Couldn't connect to Awair servers.", Toast.LENGTH_SHORT).show();
 								    }
 								});	
 					       	}
@@ -278,10 +283,8 @@ public class CompareDataFragment extends Fragment {
 				} catch (Exception e) {
 					Log.v("error",e.toString());
 				}
-				
 			}
 	    };
-	    
 	    new Handler().postDelayed(r, 1);
 	}
 }

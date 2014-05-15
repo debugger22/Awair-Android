@@ -101,18 +101,17 @@ import android.widget.Toast;
 /**
  * This Activity is the main activity which opens after the ScreenSaver
  * (Not in the case of first use).
- * @author mrsud
  *
  */
 public class ViewActivity extends FragmentActivity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener{
 	private HashMap<String,String> data;
 	private Boolean GSMDataAdded = false;
+	// Variables to hold values of latitude and longitude
+	// These are public because it is alsobeing used in 
+	// Comparision Fragment
 	public static Double lat=(double) 0;
 	public static Double lng=(double) 0;
 	private MenuItem mnuShowCity;
-	private Animation animFadeIn;
-	private Animation animFadeIn1000;
-	private Animation animFadeOut;
 	private LocationClient locationclient;
 	private LocationRequest locationrequest;
 	private ProgressWheel aq_spinner;
@@ -121,19 +120,24 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 	private ScrollView container;
 	
 	
-	//some random variables
+	// Some useful variables
     private static final int FRAME_TIME_MS = 1;
+
+    // Unique identifiers for multiple inter thread messages
     private static final String KEY_AQ = "aq";
     private static final String KEY_GREENERY = "greenery";
     private static final String KEY_UV = "uv";
+
+    // Booleans to represent status of donuts
     boolean isRunningAq = false;
     boolean isRunningGreenery = false;
     boolean isRunningUv = false;
+
     private String deviceId;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "com.pirhoalpha.ubiplug_oaq";
-    private static final String PROPERTY_APP_VERSION = "25";
+    private static final String PROPERTY_APP_VERSION = "32";
     public String emailId;
     String SENDER_ID = "487700552253"; //Awair project Id
     AtomicInteger msgId = new AtomicInteger();
@@ -159,6 +163,7 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 	private TextView lbl_uv_value;
 
 	
+	// Thread handler for AQ spinner
 	@SuppressLint("HandlerLeak")
 	Handler aq_wheel_handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -172,7 +177,7 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
         }
     };
 
-
+    // Thread handler for Greenery spinner
 	@SuppressLint("HandlerLeak")
 	Handler greenery_wheel_handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -186,7 +191,7 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
         }
     };
 
-    
+    // Thread handler for UV spinner
 	@SuppressLint("HandlerLeak")
 	Handler uv_wheel_handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -217,9 +222,6 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 		rmm.setPositiveBtn("Rate Awair");
 		rmm.setRunWithoutPlayStore(true);
 		rmm.run();
-
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-        //        WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -262,7 +264,7 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 		total = Integer.parseInt(data_prefs.getString("total", "0"));
 		greenery = Integer.parseInt(data_prefs.getString("greenery", "0"));
 		
-		//View variables assignments
+		// View variables assignments
 		container = (ScrollView)findViewById(R.id.container_activity_view);
 		lbl_aq_value = (TextView)findViewById(R.id.lbl_air_quality_value);
 		lbl_greenery_value = (TextView)findViewById(R.id.lbl_greenery_value);
@@ -276,12 +278,12 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 		greenery_spinner.setRimColor(Color.WHITE);
 		uv_spinner.setRimColor(Color.WHITE);
 		
-		//Setting TypeFaces
+		// Setting TypeFaces
 		lbl_aq_value.setTypeface(tfhl);
 		lbl_greenery_value.setTypeface(tfhl);
 		lbl_uv_value.setTypeface(tfhl);
 		
-		//Donuts OnClickListeners
+		// Donuts OnClickListeners
 		aq_spinner.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -312,12 +314,6 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 		
 	    final TelephonyManager tm = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
 	    deviceId = Secure.getString(getApplicationContext().getContentResolver(),Secure.ANDROID_ID);
-	    		
-		//Animations
-		animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),  R.anim.fade_in);
-		animFadeIn1000 = AnimationUtils.loadAnimation(getApplicationContext(),  R.anim.fade_in);
-		animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(),  R.anim.fade_out);
-		animFadeIn.setDuration(1000);
 		updateUi();
 	}
 	
@@ -594,6 +590,9 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 	      }.execute(null, null, null);
 	  }
 	  
+	  /**
+	   * Stores registration id on the server
+	   */
 	  private void sendRegistrationIdToBackend() {
 	    	String url = "http://www.ubiplug.com:8080/ubiair/gcm/device/add/";	//TODO to be changed in future
 	    	RequestParams params = new RequestParams();
@@ -635,7 +634,11 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 	    	}
 		}
 		
-	  
+	  /**
+	   * Stores reg id in shared preferences
+	   * @param context
+	   * @param regId
+	   */
 	  private void storeRegistrationId(Context context, String regId) {
 		    final SharedPreferences prefs = getGCMPreferences(context);
 		    int appVersion = getAppVersion(context);
@@ -814,7 +817,7 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 								    }
 								    @Override
 								    public void onFailure(Throwable error, String response){
-								    	//Toast.makeText(ViewActivity.this, "Error could not be reported.", Toast.LENGTH_SHORT).show();
+								    	Toast.makeText(ViewActivity.this, "Couldn't connect to Awair servers.", Toast.LENGTH_SHORT).show();
 								    }
 								    
 								});	
