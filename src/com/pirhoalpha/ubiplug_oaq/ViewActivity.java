@@ -1,5 +1,12 @@
-package com.pirhoalpha.ubiplug_oaq;
+/*
+ * This source code is a property of PiRhoAlpha Research Pvt. Ltd.
+ * Copyright 2014
+ * 
+ * Author Sudhanshu Mishra
+ */
 
+
+package com.pirhoalpha.ubiplug_oaq;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

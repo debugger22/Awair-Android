@@ -1,3 +1,11 @@
+/*
+ * This source code is a property of PiRhoAlpha Research Pvt. Ltd.
+ * Copyright 2014
+ * 
+ * Author Sudhanshu Mishra
+ */
+
+
 package com.pirhoalpha.ubiplug_oaq;
 
 import android.graphics.Typeface;

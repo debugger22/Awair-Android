@@ -1,3 +1,10 @@
+/*
+ * This source code is a property of PiRhoAlpha Research Pvt. Ltd.
+ * Copyright 2014
+ * 
+ * Author Sudhanshu Mishra
+ */
+
 package com.pirhoalpha.ubiplug_oaq;
 
 import android.graphics.Typeface;
@@ -10,8 +17,7 @@ import android.widget.TextView;
 
 /**
  * This fragment class is for the about fragment on the KnowMore activity.
- * It uses about_fragment xml file.
- * @author mrsud
+ * It uses about_fragment.xml file for user interface.
  *
  */
 public class AboutFragment extends Fragment {
@@ -25,7 +31,6 @@ public class AboutFragment extends Fragment {
 
     /**
      * This method is automatically called when activity creation completes.
-     * 
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -35,6 +40,7 @@ public class AboutFragment extends Fragment {
         TextView appname = (TextView)getActivity().findViewById(R.id.lbl_app_name);
         TextView version = (TextView)getActivity().findViewById(R.id.lbl_version);
         TextView company = (TextView)getActivity().findViewById(R.id.lbl_company_name);
+        // Changing typefaces of the textviews
         appname.setTypeface(tf);
         version.setTypeface(tf);
         company.setTypeface(tf);

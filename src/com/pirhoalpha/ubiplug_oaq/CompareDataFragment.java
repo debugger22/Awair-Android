@@ -1,3 +1,10 @@
+/*
+ * This source code is a property of PiRhoAlpha Research Pvt. Ltd.
+ * Copyright 2014
+ * 
+ * Author Sudhanshu Mishra
+ */
+
 package com.pirhoalpha.ubiplug_oaq;
 
 
@@ -50,7 +57,6 @@ import android.widget.Toast;
 /**
  * This fragment class is for the cpmpare fragment on the KnowMore activity.
  * It uses compare_fragment xml file.
- * @author mrsud
  *
  */
 public class CompareDataFragment extends Fragment {
