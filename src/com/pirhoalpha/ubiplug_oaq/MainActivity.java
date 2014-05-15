@@ -59,6 +59,7 @@ import com.loopj.android.http.RequestParams;
 public class MainActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener, android.location.LocationListener{
 	
 	private Map<String,String> new_data;
+	// Variables to hold latitude and longitude
 	double lat;
 	double lng;
 	private ProgressDialog dialog;
@@ -71,30 +72,21 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		if(Build.VERSION.SDK_INT>=14)getActionBar().setIcon(R.drawable.home);
+		// Get handle of LocationManager
 		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		// If LocationService is disabled, warn user to enable it and open network settings.
+		// Otherwise register for location updates.
 		if(!locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-			Toast.makeText(this, "Please turn on Network based location service.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Please turn on Network based location service.",
+					Toast.LENGTH_SHORT).show();
 		}else{
 			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		}
-		
+
+		// Show a process dialog.
 		dialog = new ProgressDialog(MainActivity.this);
 		dialog.setMessage("Preparing for the first use.");
-		dialog.show();
-		Timer timer = new Timer("message_changer",true);
-		timer.schedule(new TimerTask(){
-			@Override
-			public void run() {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						dialog.setMessage("Preparing for the first use. If you are indoors, try moving to a window.");	
-					}
-				});
-			}
-		}, 10*1000);
 		dialog.setCancelable(true);
 		dialog.setCanceledOnTouchOutside(false);
 		dialog.setOnCancelListener(new OnCancelListener () {
@@ -104,7 +96,25 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 				return;
 			}
 		});
-
+		dialog.show();
+		// Update message if it is taking too long,
+		// more than 20 seconds
+		Timer timer = new Timer("message_changer",true);
+		timer.schedule(new TimerTask(){
+			@Override
+			public void run() {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						dialog.setMessage("Preparing for the first use." +
+								"If you are indoors, try moving to a window.");	
+					}
+				});
+			}
+		}, 20*1000);
+		
+		// Check for GooglePlayServices and connect location client.
+		// If not found, open Play store to install it.
 		int resp = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		if(resp == ConnectionResult.SUCCESS){
 			locationclient = new LocationClient(this,this,this);
@@ -118,11 +128,9 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 			    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
 			}
 			Toast.makeText(this, "You must have Google Play services to use this app", Toast.LENGTH_LONG).show();
-			reportError("Device must have Google Play services to use this app");
+			reportError("Device must have Google Play services to use this app.");
 		}
-
 	}
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,7 +150,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 		locationReceived(location);
 	 }
 
-
 	@Override
 	public void onConnectionFailed(ConnectionResult arg0) {
 		Toast.makeText(this, "Google play services not available", Toast.LENGTH_SHORT).show();
@@ -150,6 +157,10 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 		finish();
 	}
 
+	/**
+	 * This method is called when location service gets connected.
+	 * After connection it requests for longitude and latitude.
+	 */
 	@Override
 	public void onConnected(Bundle arg0) {
 		if(locationclient!=null && locationclient.isConnected()){
@@ -168,7 +179,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 		}else{
 			Log.i("Location", "NOT CONNECTED");
 		}
-		
 	}
 
 	@Override
@@ -176,11 +186,17 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 		Log.i("Location", "Disconnected");
 	}
 	
-	
+	/**
+	 * This method is automatically called when the device receives
+	 * location from the provider.
+	 * @param location
+	 */
 	private void locationReceived(Location location){
 		if(!dataAdded){
+			// Get latitude and longitude
 			lat =  location.getLatitude();
 		    lng = location.getLongitude();
+		    // Get hour of the day
 		    final String hour = String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 		    Runnable r = new Runnable() {
 				@Override
@@ -194,6 +210,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 						    	try {
 						        	AsyncHttpClient client = new AsyncHttpClient();
 						        	client.setTimeout(DEFAULT_TIMEOUT);
+						        	// Prepare request parameters
 				        	    	RequestParams params = new RequestParams();
 				        	    	params.put("lat", String.valueOf(lat));
 				        	    	params.put("lng", String.valueOf(lng));
@@ -281,7 +298,10 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 		}
 	}
 
-
+	/**
+	 * This method reports error back to the server for analysis.
+	 * @param message
+	 */
 	public void reportError(final String message){
 		Runnable r = new Runnable() {
 			@Override
@@ -307,7 +327,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 								    }
 								    @Override
 								    public void onFailure(Throwable error, String response){
-								    	Toast.makeText(MainActivity.this, "Error could not be reported.", Toast.LENGTH_SHORT).show();
+								    	Toast.makeText(MainActivity.this, "Couldn't connect to Awair servers. Please try again.", Toast.LENGTH_SHORT).show();
 								    }
 								});	
 					       	}
