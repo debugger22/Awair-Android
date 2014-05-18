@@ -12,7 +12,7 @@
     <dimen name="okText">18dp</dimen>
     <dimen name="smallText">15dp</dimen>
     <dimen name="verySmallText">11dp</dimen>
-    <dimen name="bigwheelradius">170dp</dimen>
-    <dimen name="barWidth">15dp</dimen>
-    <dimen name="rimWidth">15dp</dimen>
+    <dimen name="bigwheelradius">150dp</dimen>
+    <dimen name="barWidth">14dp</dimen>
+    <dimen name="rimWidth">14dp</dimen>
 </resources>

@@ -26,6 +26,6 @@
     <color name="moderate">#f39c12</color>
     <color name="poor">#d35400</color>
     <color name="bad">#e74c3c</color>
-    <!--  -->
+    <color name="test">#ff1100</color>
     
 </resources>

@@ -15,6 +15,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:backgroundStacked">@drawable/greenery_background</item>
     </style>
 	<style name="NoActionBar" parent="@android:style/Theme.Light">
 	    <item name="android:windowActionBar">false</item>

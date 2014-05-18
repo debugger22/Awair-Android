@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:padding="10dp"
+    android:background="@drawable/uv_background"
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="0.6"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/lbl_uv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/smallText"
+        android:text="Did you know that overexposure to the sun can cause skin and eye injury? While some sunlight is necessary, too much is dangerous, causing sunburn, premature aging of the skin, skin cancer, cataracts, allergies, and damage to the immune system.\n\n
+The ill effects of sunlight are caused by ultraviolet (UV) radiation. These invisible rays from the sun come in two types, called UVA and UVB, both of which cause sun-related skin damage.\n\n
+There are no safe UV rays. The UV Index provides a forecast of the expected risk of overexposure to UV radiation from the sun." />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/uv_white" />
+
+</RelativeLayout>
+
+</ScrollView>

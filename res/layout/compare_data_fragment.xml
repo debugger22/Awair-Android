@@ -32,7 +32,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <LinearLayout
 	                android:layout_width="match_parent"
@@ -42,18 +42,10 @@
 	                <ProgressBar
 	                    android:id="@+id/prog_home"
 	                    style="?android:attr/progressBarStyleHorizontal"
-	                    android:layout_width="fill_parent"
+	                    android:layout_width="match_parent"
 	                    android:layout_height="wrap_content"
 	                    android:layout_marginBottom="15dp"
-	                    android:progress="70"
-	                    android:layout_marginRight="40dp"
-	                     />
-
-	                <TextView
-	                    android:id="@+id/textView1"
-	                    android:layout_width="wrap_content"
-	                    android:layout_height="wrap_content"
-	                    android:text="70%" />
+	                    android:progress="0" />
 
 	            </LinearLayout>
 
@@ -63,7 +55,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog1"
@@ -79,7 +71,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog2"
@@ -94,7 +86,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog3"
@@ -109,7 +101,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog4"
@@ -124,7 +116,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog5"
@@ -139,7 +131,7 @@
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
 	                android:textSize="@dimen/smallText"
-	                android:text="TextView" />
+	                android:text="" />
 
 	            <ProgressBar
 	                android:id="@+id/prog6"
