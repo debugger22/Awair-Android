@@ -18,35 +18,43 @@ import android.support.v4.app.DialogFragment;
 public class RateMeMaybeFragment extends DialogFragment implements
 		OnClickListener, OnCancelListener {
 
-	private RMMFragInterface mInterface;
-
-	private String title;
-	private String message;
-	private int customIcon;
-	private String positiveBtn;
-	private String neutralBtn;
-	private String negativeBtn;
-
 	public interface RMMFragInterface {
-		void _handlePositiveChoice();
-
-		void _handleNeutralChoice();
+		void _handleCancel();
 
 		void _handleNegativeChoice();
 
-		void _handleCancel();
+		void _handleNeutralChoice();
+
+		void _handlePositiveChoice();
 	}
 
-	public void setData(int customIcon, String title, String message,
-			String positiveBtn, String neutralBtn, String negativeBtn,
-			RMMFragInterface myInterface) {
-		this.customIcon = customIcon;
-		this.title = title;
-		this.message = message;
-		this.positiveBtn = positiveBtn;
-		this.neutralBtn = neutralBtn;
-		this.negativeBtn = negativeBtn;
-		this.mInterface = myInterface;
+	private int customIcon;
+	private String message;
+	private RMMFragInterface mInterface;
+	private String negativeBtn;
+	private String neutralBtn;
+	private String positiveBtn;
+
+	private String title;
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		this.mInterface._handleCancel();
+	}
+
+	@Override
+	public void onClick(DialogInterface dialog, int choice) {
+		switch (choice) {
+		case DialogInterface.BUTTON_POSITIVE:
+			this.mInterface._handlePositiveChoice();
+			break;
+		case DialogInterface.BUTTON_NEUTRAL:
+			this.mInterface._handleNeutralChoice();
+			break;
+		case DialogInterface.BUTTON_NEGATIVE:
+			this.mInterface._handleNegativeChoice();
+			break;
+		}
 	}
 
 	@Override
@@ -62,38 +70,18 @@ public class RateMeMaybeFragment extends DialogFragment implements
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		if (customIcon != 0) {
-			builder.setIcon(customIcon);
+		if (this.customIcon != 0) {
+			builder.setIcon(this.customIcon);
 		}
-		builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(positiveBtn, this);
-		builder.setNeutralButton(neutralBtn, this);
-		builder.setNegativeButton(negativeBtn, this);
+		builder.setTitle(this.title);
+		builder.setMessage(this.message);
+		builder.setPositiveButton(this.positiveBtn, this);
+		builder.setNeutralButton(this.neutralBtn, this);
+		builder.setNegativeButton(this.negativeBtn, this);
 		builder.setOnCancelListener(this);
 		AlertDialog alert = builder.create();
 
 		return alert;
-	}
-
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		mInterface._handleCancel();
-	}
-
-	@Override
-	public void onClick(DialogInterface dialog, int choice) {
-		switch (choice) {
-		case DialogInterface.BUTTON_POSITIVE:
-			mInterface._handlePositiveChoice();
-			break;
-		case DialogInterface.BUTTON_NEUTRAL:
-			mInterface._handleNeutralChoice();
-			break;
-		case DialogInterface.BUTTON_NEGATIVE:
-			mInterface._handleNegativeChoice();
-			break;
-		}
 	}
 
 	@Override
@@ -102,11 +90,23 @@ public class RateMeMaybeFragment extends DialogFragment implements
 		// http://code.google.com/p/android/issues/detail?id=17423
 		Dialog dialog = getDialog();
 
-		if ((dialog != null) && getRetainInstance()) {
+		if (dialog != null && getRetainInstance()) {
 			dialog.setDismissMessage(null);
 		}
 
 		super.onDestroyView();
+	}
+
+	public void setData(int customIcon, String title, String message,
+			String positiveBtn, String neutralBtn, String negativeBtn,
+			RMMFragInterface myInterface) {
+		this.customIcon = customIcon;
+		this.title = title;
+		this.message = message;
+		this.positiveBtn = positiveBtn;
+		this.neutralBtn = neutralBtn;
+		this.negativeBtn = negativeBtn;
+		this.mInterface = myInterface;
 	}
 
 }
