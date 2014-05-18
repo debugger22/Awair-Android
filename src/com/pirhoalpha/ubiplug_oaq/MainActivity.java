@@ -310,7 +310,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 					runOnUiThread(new Runnable (){
 						@Override
 						public void run() {
-							final String url = new String(DatabaseReader.AirData.ERROR_REPORT_URL);
+							final String url = new String(Constants.ERROR_REPORT_URL);
 							final int DEFAULT_TIMEOUT = 100 * 1000;
 					    	try {
 					        	AsyncHttpClient client = new AsyncHttpClient();

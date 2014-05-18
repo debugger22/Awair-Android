@@ -36,11 +36,12 @@ public class AboutFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
     	super.onActivityCreated(savedInstanceState);
     	//Setting typefaces of the labels
-    	Typeface tf = Typeface.createFromAsset(getActivity().getApplicationContext().getAssets(),"fonts/roboto-regular.ttf");
+    	Typeface tf = Typeface.createFromAsset(getActivity()
+    			.getApplicationContext().getAssets(),"fonts/roboto-regular.ttf");
         TextView appname = (TextView)getActivity().findViewById(R.id.lbl_app_name);
         TextView version = (TextView)getActivity().findViewById(R.id.lbl_version);
         TextView company = (TextView)getActivity().findViewById(R.id.lbl_company_name);
-        // Changing typefaces of the textviews
+        // Changing typefaces of the TextViews
         appname.setTypeface(tf);
         version.setTypeface(tf);
         company.setTypeface(tf);

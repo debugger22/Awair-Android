@@ -320,13 +320,15 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 	@Override
 	public void onStart(){
 		super.onStart();
+		// GA tracker
 		EasyTracker.getInstance(this).activityStart(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+		// GA tracker
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 	
 	@Override
@@ -800,7 +802,7 @@ public class ViewActivity extends FragmentActivity implements GooglePlayServices
 					runOnUiThread(new Runnable (){
 						@Override
 						public void run() {
-							final String url = new String(DatabaseReader.AirData.ERROR_REPORT_URL);
+							final String url = new String(Constants.ERROR_REPORT_URL);
 							final int DEFAULT_TIMEOUT = 100 * 1000;
 					    	try {
 					        	AsyncHttpClient client = new AsyncHttpClient();

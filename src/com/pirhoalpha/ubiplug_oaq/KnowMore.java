@@ -31,7 +31,6 @@ import android.widget.ListView;
 /**
  * This Activity holds and manages all the fragments on 
  * the know more screen
- * @author mrsud
  *
  */
 public class KnowMore extends FragmentActivity {
@@ -193,7 +192,7 @@ public class KnowMore extends FragmentActivity {
     }
     
     /**
-     * Method responsible to for changing fragments
+     * Method responsible for changing fragments
      * @param position
      */
     private void displayView(int position) {
